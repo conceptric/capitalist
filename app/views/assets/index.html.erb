@@ -1,0 +1,16 @@
+<% title "Assets" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  <% for asset in @assets %>
+    <tr>
+      <td><%= asset.name %></td>
+      <td><%= asset.description %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Asset", new_asset_path %></p>

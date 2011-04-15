@@ -41,3 +41,4 @@ gem "rspec-rails", :group => [:development, :test]
 gem "factory_girl_rails", :group => [:development, :test]
 gem "webrat", :group => :test
 gem "autotest", :group => :test
+gem "mocha", :group => :test

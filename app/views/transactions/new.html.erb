@@ -5,7 +5,7 @@
   <%= f.input :date %>
   <%= f.association :asset %>
   <%= f.input :total_value %>
-  <%= f.input :cost %>
+  <%= f.input :cost, :as => :decimal %>
   <%= f.button :submit %>
 <% end %>
 

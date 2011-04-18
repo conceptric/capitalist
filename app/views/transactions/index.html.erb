@@ -9,10 +9,10 @@
   </tr>
   <% for transaction in @transactions %>
     <tr>
-      <td><%= transaction.date %></td>
+      <td><%= transaction.date.strftime("%d %B %Y") %></td>
       <td><%= transaction.asset.name %></td>
-      <td><%= transaction.total_value %></td>
-      <td><%= transaction.cost %></td>
+      <td><%= number_to_currency(transaction.total_value, :unit => '£') %></td>
+      <td><%= number_to_currency(transaction.cost, :unit => '£') %></td>
       <td><%= link_to "Destroy", transaction, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>

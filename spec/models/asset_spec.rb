@@ -10,7 +10,7 @@ describe Asset, ".new" do
   end
 
   it "should have a unique name" do
-    Factory.build(:asset).should_not be_valid
+    Factory.build(:asset, @asset.attributes).should_not be_valid
   end
   
   it "should be invalid without a name" do

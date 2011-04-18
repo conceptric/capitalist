@@ -1,7 +1,9 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe TransactionsController do
-  fixtures :all
+  before :all do
+    Factory(:transaction)
+  end
   render_views
 
   it "index action should render index template" do

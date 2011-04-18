@@ -1,4 +1,6 @@
 Capitalist::Application.routes.draw do
+  resources :transactions
+
   resources :assets
 
   # The priority is based upon order of creation:

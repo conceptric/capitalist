@@ -10,11 +10,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110415141534) do
+ActiveRecord::Schema.define(:version => 20110418103047) do
 
   create_table "assets", :force => true do |t|
     t.string   "name"
     t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transactions", :force => true do |t|
+    t.date     "date"
+    t.integer  "asset_id"
+    t.decimal  "total_value", :precision => 10, :scale => 0
+    t.decimal  "cost",        :precision => 10, :scale => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

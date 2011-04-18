@@ -6,18 +6,25 @@ describe Transaction, ".new" do
   end
 
   it "should be valid" do
-    Factory(:transaction).should be_valid
+    @transaction.should be_valid    
   end
   
   it "should have a date" do
-    transaction = Factory.build(:transaction)
-    transaction.date = nil
-    transaction.should_not be_valid
+    @transaction.date = nil
+    @transaction.should_not be_valid
+  end
+
+  it "should have a valid date" do
+    @transaction.date.should be_instance_of(Date)
+    @transaction.date.should eql(Date.new(2010,1,1))
+  end
+
+  it "should be associated to an Asset" do
+    @transaction.asset.should be_instance_of(Asset)
   end
   
-  it "should be associated to an Asset" do
-    transaction = Factory.build(:transaction)
-    transaction.asset_id = nil
-    transaction.should_not be_valid
+  it "should not allow the associated Asset to be nil" do
+    @transaction.asset = nil
+    @transaction.should_not be_valid
   end
 end

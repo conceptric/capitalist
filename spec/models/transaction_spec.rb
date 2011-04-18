@@ -26,5 +26,10 @@ describe Transaction, ".new" do
   it "should not allow the associated Asset to be nil" do
     @transaction.asset = nil
     @transaction.should_not be_valid
+  end                                        
+  
+  it "should return the correct value and cost decimal values" do
+    @transaction.total_value.should eql(100.10)
+    @transaction.cost.should eql(10.01)
   end
 end

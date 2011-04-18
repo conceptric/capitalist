@@ -2,8 +2,9 @@ class TransactionsController < ApplicationController
   def index
     @transactions = Transaction.all
   end
-
+  
   def new
+    @assets = Asset.find :all
     @transaction = Transaction.new
   end
 

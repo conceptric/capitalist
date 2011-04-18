@@ -10,7 +10,7 @@
   <% for transaction in @transactions %>
     <tr>
       <td><%= transaction.date %></td>
-      <td><%= transaction.asset_id %></td>
+      <td><%= transaction.asset.name %></td>
       <td><%= transaction.total_value %></td>
       <td><%= transaction.cost %></td>
       <td><%= link_to "Destroy", transaction, :confirm => 'Are you sure?', :method => :delete %></td>

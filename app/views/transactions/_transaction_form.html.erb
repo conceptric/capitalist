@@ -2,7 +2,8 @@
   <%= f.error_messages %>
   <%= f.input :date %>
   <%= f.association :asset %>
+  <%= f.input :units %>
   <%= f.input :total_value %>
-  <%= f.input :cost, :as => :decimal %>
+  <%= f.input :cost %>
   <%= f.button :submit %>
 <% end %>         

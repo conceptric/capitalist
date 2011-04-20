@@ -4,6 +4,7 @@
   <tr>
     <th>Date</th>
     <th>Asset</th>
+    <th>Units</th>
     <th>Total Value</th>
     <th>Cost</th>
   </tr>
@@ -11,6 +12,7 @@
     <tr>
       <td><%= transaction.date.strftime("%d %B %Y") %></td>
       <td><%= transaction.asset.name %></td>
+      <td><%= transaction.units %></td>
       <td><%= number_to_currency(transaction.total_value, :unit => '£') %></td>
       <td><%= number_to_currency(transaction.cost, :unit => '£') %></td>
       <td><%= link_to "Edit", edit_transaction_path(transaction) %></td>

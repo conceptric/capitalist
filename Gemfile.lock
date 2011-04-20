@@ -114,18 +114,18 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  autotest
-  factory_girl_rails
-  haml-rails
-  hpricot
-  jquery-rails
-  mocha
-  mysql2
-  nifty-generators
+  autotest (= 4.4.6)
+  factory_girl_rails (= 1.0.1)
+  haml-rails (= 0.3.4)
+  hpricot (= 0.8.4)
+  jquery-rails (= 0.2.7)
+  mocha (= 0.9.12)
+  mysql2 (= 0.2.7)
+  nifty-generators (= 0.4.6)
   rails (= 3.0.6)
-  rails3-generators
-  rspec-rails
-  ruby_parser
-  sass
-  simple_form
-  webrat
+  rails3-generators (= 0.17.4)
+  rspec-rails (= 2.5.0)
+  ruby_parser (= 2.0.6)
+  sass (= 3.1.0.alpha.253)
+  simple_form (= 1.3.1)
+  webrat (= 0.7.3)

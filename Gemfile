@@ -1,44 +1,28 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.6'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'mysql2'
-
-# Use unicorn as the web server
-# gem 'unicorn'
+gem 'mysql2', '0.2.7'                                                         
+gem 'haml-rails', '0.3.4'
+gem 'sass', '3.1.0.alpha.253'
+gem 'simple_form', '1.3.1'
+gem 'jquery-rails', '0.2.7'
 
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-# gem 'ruby-debug'
-# gem 'ruby-debug19', :require => 'ruby-debug'
+group :development do
+  gem 'rails3-generators', '0.17.4'
+  gem 'nifty-generators', '0.4.6'
+  gem 'hpricot', '0.8.4'
+  gem 'ruby_parser', '2.0.6'
+  gem 'rspec-rails', '2.5.0'
+  gem 'factory_girl_rails', '1.0.1'
+end
 
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
-
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
-# group :development, :test do
-#   gem 'webrat'
-# end
-gem "haml-rails"
-gem "sass"
-gem "nifty-generators"
-gem "simple_form"
-gem "jquery-rails"
-gem "hpricot", :group => :development
-gem "ruby_parser", :group => :development
-gem "rails3-generators", :group => [:development]
-gem "rspec-rails", :group => [:development, :test]
-gem "factory_girl_rails", :group => [:development, :test]
-gem "webrat", :group => :test
-gem "autotest", :group => :test
-gem "mocha", :group => :test
+group :test do
+  gem 'rspec-rails', '2.5.0'
+  gem 'factory_girl_rails', '1.0.1'
+  gem 'webrat', '0.7.3'
+  gem 'autotest', '4.4.6'
+  gem 'mocha', '0.9.12'
+end

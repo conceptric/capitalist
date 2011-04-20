@@ -32,12 +32,24 @@ describe TransactionsController do
     end
   end
 
-  describe "Editing an existing transations" do
-    # 
-    # it "edit action should render edit template" do
-    #   get :edit
-    #   response.should render_template(:edit)
-    # end    
+  describe "Editing an existing transations" do   
+    it "edit action should render edit template" do
+      transaction = Transaction.first
+      get :edit, :id => transaction
+      response.should render_template(:edit)
+    end    
+
+    it "update action should render edit template when model is invalid" do
+      Transaction.any_instance.stubs(:valid?).returns(false)
+      put :update, :id => 1
+      response.should render_template(:edit)
+    end
+
+    it "update action should redirect when model is valid" do
+      Transaction.any_instance.stubs(:valid?).returns(true)
+      put :update, :id => 1
+      response.should redirect_to(transactions_url)
+    end
   end
   
   describe "Destroying an existing transaction" do

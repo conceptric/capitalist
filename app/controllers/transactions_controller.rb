@@ -18,8 +18,17 @@ class TransactionsController < ApplicationController
   end
 
   def edit
-    
+    @transaction = Transaction.find(params[:id])
   end     
+
+  def update
+    @transaction = Transaction.find(params[:id])
+    if @transaction.update_attributes(params[:transaction])
+      redirect_to transactions_url, :notice => "Successfully updated transaction."
+    else
+      render :action => 'edit'
+    end
+  end
   
   def destroy
     @transaction = Transaction.find(params[:id])

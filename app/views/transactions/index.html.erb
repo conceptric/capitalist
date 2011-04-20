@@ -13,6 +13,7 @@
       <td><%= transaction.asset.name %></td>
       <td><%= number_to_currency(transaction.total_value, :unit => '£') %></td>
       <td><%= number_to_currency(transaction.cost, :unit => '£') %></td>
+      <td><%= link_to "Edit", edit_transaction_path(transaction) %></td>
       <td><%= link_to "Destroy", transaction, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>

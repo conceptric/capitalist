@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
   end
   
   def new
-    @assets = Asset.find :all
+    @assets = Asset.all
     @transaction = Transaction.new
   end
 
@@ -17,6 +17,10 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def edit
+    
+  end     
+  
   def destroy
     @transaction = Transaction.find(params[:id])
     @transaction.destroy

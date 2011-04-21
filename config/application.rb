@@ -41,6 +41,7 @@ module Capitalist
     # Customize generators
     config.generators do |g|
       g.stylesheets false
+      g.template_engine :haml      
       g.form_builder :simple_form
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'
     end

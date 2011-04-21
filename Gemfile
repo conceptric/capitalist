@@ -3,7 +3,6 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.6'
 gem 'mysql2', '0.2.7'                                                         
 gem 'haml-rails', '0.3.4'
-gem 'sass', '3.1.0.alpha.253'
 gem 'simple_form', '1.3.1'
 gem 'jquery-rails', '0.2.7'
 

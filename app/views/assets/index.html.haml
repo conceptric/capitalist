@@ -1,0 +1,12 @@
+- title "Assets"
+
+%table
+  %tr
+    %th Name
+    %th Description
+  - for asset in @assets
+    %tr
+      %td= asset.name
+      %td= asset.description
+
+%p= link_to "New Asset", new_asset_path

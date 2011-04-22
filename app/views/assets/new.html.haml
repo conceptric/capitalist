@@ -1,17 +1,5 @@
 - title "New Asset"
 
-= form_for @asset do |f|
-  = f.error_messages
-  %p
-    = f.label :name
-    %br
-    = f.text_field :name
-  %p
-    = f.label :description
-    %br
-    = f.text_field :description
-  %p
-    = f.submit
-
+= render 'form'
 
 %p= link_to "Back to List", assets_path

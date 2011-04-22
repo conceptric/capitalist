@@ -15,4 +15,23 @@ class AssetsController < ApplicationController
       render :action => 'new'
     end
   end
+
+  def edit
+    @asset = Asset.find(params[:id])
+  end
+
+  def update
+    @asset = Asset.find(params[:id])
+    if @asset.update_attributes(params[:asset])
+      redirect_to assets_url, :notice  => "Successfully updated asset."
+    else
+      render :action => 'edit'
+    end
+  end
+
+  def destroy
+    @asset = Asset.find(params[:id])
+    @asset.destroy
+    redirect_to assets_url, :notice => "Successfully destroyed asset."
+  end
 end

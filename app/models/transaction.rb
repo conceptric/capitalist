@@ -3,5 +3,7 @@ class Transaction < ActiveRecord::Base
   attr_accessible :date, :asset_id, :units, :total_value, :cost
   
   validates_presence_of :date, :asset_id, :units
-  validates_numericality_of :units, :greater_than_or_equal_to => 0.00001
+  validates_numericality_of :units, 
+                            :greater_than_or_equal_to => 0.00001,
+                            :message => 'There are too few units'
 end

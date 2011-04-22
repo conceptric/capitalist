@@ -1,9 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe TransactionsController do
-  before :all do
-    Factory(:transaction)
-  end
   render_views
 
   describe "Creating a new transaction" do
@@ -33,9 +30,12 @@ describe TransactionsController do
   end
 
   describe "Editing an existing transations" do   
+    before :each do
+      Transaction.stubs(:find).with(1).returns(Factory.build(:transaction))      
+    end
+    
     it "edit action should render edit template" do
-      transaction = Transaction.first
-      get :edit, :id => transaction
+      get :edit, :id => 1
       response.should render_template(:edit)
     end    
 
@@ -54,10 +54,10 @@ describe TransactionsController do
   
   describe "Destroying an existing transaction" do
     it "destroy action should destroy model and redirect to index action" do
-      transaction = Transaction.first
-      delete :destroy, :id => transaction
+      Transaction.stubs(:find).with(1).returns(Factory.build(:transaction))      
+      delete :destroy, :id => 1
       response.should redirect_to(transactions_url)
-      Transaction.exists?(transaction.id).should be_false
+      Transaction.exists?(1).should be_false
     end    
   end
 end

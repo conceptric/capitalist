@@ -17,8 +17,6 @@ group :development do
 end                
 
 group :test do
-  gem 'webrat', '0.7.3'
-  gem 'autotest', '4.4.6'
   gem 'mocha', '0.9.12'
 end
 

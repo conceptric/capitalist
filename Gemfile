@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.6'
 gem 'mysql2', '0.2.7'                                                         
 gem 'haml-rails', '0.3.4'
+gem 'sass', '3.1.1'
 gem 'simple_form', '1.3.1'
 gem 'jquery-rails', '0.2.7'
 
@@ -10,6 +11,7 @@ gem 'jquery-rails', '0.2.7'
 # gem 'capistrano'
 
 group :development do
+  gem 'rake', '0.8.7'
   gem 'rails3-generators', '0.17.4'
   gem 'nifty-generators', '0.4.6'
   gem 'hpricot', '0.8.4'

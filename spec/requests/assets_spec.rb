@@ -1,14 +1,11 @@
 require 'spec_helper'
 
 describe "Assets" do    
-  before :each do 
-    @asset = Factory(:asset)
-  end
-
   describe "Read" do
     it "displays all the existing assets" do
+      Factory(:asset, :name => 'AssetName')
       visit assets_path
-      page.should have_content(@asset.name)
+      page.should have_content('AssetName')
     end
   end
 
@@ -36,6 +33,10 @@ describe "Assets" do
   end
 
   describe "Update" do
+    before :each do 
+      @asset = Factory(:asset)
+    end
+
     it "updates an asset with valid input" do
       visit assets_path
       click_link "Edit"
@@ -58,6 +59,10 @@ describe "Assets" do
   end   
 
   describe "Delete" do
+    before :each do 
+      @asset = Factory(:asset)
+    end
+
     it "should delete an existing asset" do  
       visit assets_path
       click_link "Destroy"

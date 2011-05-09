@@ -3,6 +3,10 @@ class AssetsController < ApplicationController
     @assets = Asset.all
   end
 
+  def show
+    @asset = Asset.find(params[:id])
+  end
+
   def new
     @asset = Asset.new
   end

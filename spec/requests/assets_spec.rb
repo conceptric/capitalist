@@ -68,5 +68,14 @@ describe "Assets" do
       click_link "Destroy"
       page.should_not have_content(@asset.name)
     end
+  end   
+
+  describe "Show" do
+    it "should show me a list of all the transactions for the asset" do
+      asset = Factory(:asset)
+      visit assets_path
+      click_link "Show"
+      page.should have_content(asset.name)
+    end
   end
 end

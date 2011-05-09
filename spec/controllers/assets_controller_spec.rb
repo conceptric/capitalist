@@ -27,6 +27,12 @@ describe AssetsController do
       get :index
       response.should render_template(:index)
     end
+
+    it "show action should render show template" do
+      Asset.stubs(:find).with(1).returns(Factory.build(:asset))      
+      get :show, :id => 1
+      response.should render_template(:show)
+    end
   end
 
   describe "Editing an existing assets" do          

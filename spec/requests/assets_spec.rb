@@ -73,9 +73,16 @@ describe "Assets" do
   describe "Show" do
     it "should show me a list of all the transactions for the asset" do
       asset = Factory(:asset)
+      Factory(:transaction, :asset => asset)
       visit assets_path
       click_link "Show"
       page.should have_content(asset.name)
+      within('.transaction') do
+        page.should have_content('1 January 2010')
+        page.should have_content('1')
+        page.should have_content('100.10')
+        page.should have_content('10.01')
+      end
     end
   end
 end

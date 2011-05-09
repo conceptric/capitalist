@@ -1,6 +1,11 @@
-- title "Asset: #{@asset.name}"
+- title "Summary of #{@asset.name} Holdings"
 
-%h1= "Transactions for #{@asset.name}"
+%h2 Position Summary
+
+%ul#position
+  %li#amount_paid= "Position purchase value = #{number_to_currency(@asset.amount_paid, :unit => '£')}"
+      
+%h2 Transactions
 
 %table#transactions
   %tr
@@ -15,8 +20,5 @@
       %td= number_to_currency(transaction.total_value, :unit => '£')
       %td= number_to_currency(transaction.cost, :unit => '£')
 
-%ul#position
-  %li#amount_paid= "Position purchase value = #{number_to_currency(@asset.amount_paid, :unit => '£')}"
-      
 %p
   = link_to "View All", assets_path

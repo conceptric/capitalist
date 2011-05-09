@@ -29,3 +29,12 @@ describe Asset, ".new" do
     end    
   end
 end
+
+describe Asset, ".amount_paid" do
+  it "should return the sum of the transaction values" do
+    asset = Factory(:asset)
+    Factory(:transaction, :asset => asset)
+    Factory(:transaction, :asset => asset)
+    asset.amount_paid.should eql(200.20)
+  end
+end

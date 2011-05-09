@@ -14,6 +14,9 @@
       %td= transaction.units
       %td= number_to_currency(transaction.total_value, :unit => '£')
       %td= number_to_currency(transaction.cost, :unit => '£')
+
+%ul#position
+  %li#amount_paid= "Position purchase value = #{number_to_currency(@asset.amount_paid, :unit => '£')}"
       
 %p
   = link_to "View All", assets_path

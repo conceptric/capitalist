@@ -84,5 +84,27 @@ describe "Assets" do
         page.should have_content('10.01')
       end
     end
+
+    it "should calculate the total number of units" do
+      asset = Factory(:asset)
+      Factory(:transaction, :asset => asset)
+      Factory(:transaction, :asset => asset)
+      visit assets_path
+      click_link "Show"
+      within('#position') do
+        within('#amount_paid') do
+          page.should have_content('200.20')
+        end
+      end      
+    end
+      
+    it "should calculate the averaged buying price"
+
+    it "should list the sell transactions for an asset"
+    it "should calculate the capital gain for each selling transaction"
+    it "should calculate the remaining number of units"
+
+    it "should calculate the total units sold"
+    it "should calculated the total asset capital gain"
   end
 end

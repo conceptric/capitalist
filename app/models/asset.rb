@@ -5,4 +5,8 @@ class Asset < ActiveRecord::Base
   validates :name, :presence => true, 
             :uniqueness => true,
             :length => {:maximum => 20}
+
+  def amount_paid
+    transactions.sum('total_value')
+  end            
 end

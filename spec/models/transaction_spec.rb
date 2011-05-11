@@ -84,7 +84,9 @@ end
 
 describe Sale, ".new" do
   before :each do
-    @transaction = Factory.build(:sale)
+    asset = Factory(:asset)
+    Factory(:purchase, :asset => asset)
+    @transaction = Factory.build(:sale, :asset => asset)
   end
   
   it_should_behave_like "A Transaction"
@@ -104,5 +106,15 @@ describe Sale, ".new" do
       @transaction.date.should be_instance_of(Date)
       @transaction.date.should eql(Date.new(2011,1,1))
     end    
+  end
+
+  describe "Conditions of sale" do
+    it "should not be valid if selling an asset you do not own" do
+      Purchase.delete_all
+      @transaction.should_not be_valid
+    end                               
+    
+    it "should not be valid if selling more units than have been purchased"
+    it "should not be valid if the sale is before the purchase"
   end
 end

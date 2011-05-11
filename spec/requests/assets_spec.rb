@@ -70,13 +70,16 @@ describe "Assets" do
     end
   end   
 
-  describe "Show" do
+  describe "Show" do   
+    before(:each) do
+      @asset = Factory(:asset)
+      Factory(:transaction, :asset => @asset)      
+    end         
+    
     it "should show me a list of all the transactions for the asset" do
-      asset = Factory(:asset)
-      Factory(:transaction, :asset => asset)
       visit assets_path
       click_link "Show"
-      page.should have_content(asset.name)
+      page.should have_content(@asset.name)
       within('.transaction') do
         page.should have_content('1 January 2010')
         page.should have_content('1')
@@ -86,9 +89,7 @@ describe "Assets" do
     end
 
     it "should calculate the value of assets bought" do
-      asset = Factory(:asset)
-      Factory(:transaction, :asset => asset)
-      Factory(:transaction, :asset => asset)
+      Factory(:transaction, :asset => @asset)
       visit assets_path
       click_link "Show"
       within('#position') do
@@ -99,9 +100,7 @@ describe "Assets" do
     end
 
     it "should calculate the total number of units bought" do
-      asset = Factory(:asset)
-      Factory(:transaction, :asset => asset)
-      Factory(:transaction, :asset => asset)
+      Factory(:transaction, :asset => @asset)
       visit assets_path
       click_link "Show"
       within('#position') do
@@ -112,9 +111,7 @@ describe "Assets" do
     end
       
     it "should calculate the averaged buying price" do
-      asset = Factory(:asset)
-      Factory(:transaction, :asset => asset)
-      Factory(:transaction, :asset => asset)
+      Factory(:transaction, :asset => @asset)
       visit assets_path
       click_link "Show"
       within('#position') do

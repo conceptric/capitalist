@@ -44,7 +44,7 @@ describe Asset, ".units_held" do
     asset = Factory(:asset)
     Factory(:transaction, :asset => asset)
     Factory(:transaction, :asset => asset)
-    asset.units_held.should eql(2)
+    asset.units_held.should eql(10)
   end
 end
 
@@ -53,6 +53,6 @@ describe Asset, ".average_purchase_price" do
     asset = Factory(:asset)
     Factory(:transaction, :asset => asset)
     Factory(:transaction, :asset => asset)
-    asset.average_purchase_price.should eql(100.10)
+    asset.average_purchase_price.should eql(20.02)
   end
 end

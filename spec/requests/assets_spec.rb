@@ -105,7 +105,7 @@ describe "Assets" do
       click_link "Show"
       within('#position') do
         within('#units_held') do
-          page.should have_content('2')
+          page.should have_content('10')
         end
       end      
     end
@@ -116,7 +116,7 @@ describe "Assets" do
       click_link "Show"
       within('#position') do
         within('#average_purchase_price') do
-          page.should have_content('100.10')
+          page.should have_content('20.02')
         end
       end      
     end

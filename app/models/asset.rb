@@ -15,6 +15,10 @@ class Asset < ActiveRecord::Base
   end
   
   def average_purchase_price
-    amount_paid / units_held
+    if units_held > 0
+      amount_paid / units_held
+    else
+      0
+    end
   end
 end

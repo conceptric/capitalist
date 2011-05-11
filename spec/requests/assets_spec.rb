@@ -73,7 +73,7 @@ describe "Assets" do
   describe "Show" do   
     before(:each) do
       @asset = Factory(:asset)
-      Factory(:transaction, :asset => @asset)      
+      Factory(:purchase, :asset => @asset)      
     end         
     
     it "should show me a list of all the transactions for the asset" do
@@ -89,7 +89,7 @@ describe "Assets" do
     end
 
     it "should calculate the value of assets bought" do
-      Factory(:transaction, :asset => @asset)
+      Factory(:purchase, :asset => @asset)
       visit assets_path
       click_link "Show"
       within('#position') do
@@ -100,7 +100,7 @@ describe "Assets" do
     end
 
     it "should calculate the total number of units bought" do
-      Factory(:transaction, :asset => @asset)
+      Factory(:purchase, :asset => @asset)
       visit assets_path
       click_link "Show"
       within('#position') do
@@ -111,7 +111,7 @@ describe "Assets" do
     end
       
     it "should calculate the averaged buying price" do
-      Factory(:transaction, :asset => @asset)
+      Factory(:purchase, :asset => @asset)
       visit assets_path
       click_link "Show"
       within('#position') do

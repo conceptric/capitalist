@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Transaction, ".new" do
   before :each do
-    @transaction = Factory.build(:transaction)
+    @transaction = Factory.build(:purchase)
   end
 
   it "should be valid" do

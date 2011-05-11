@@ -31,7 +31,7 @@ describe PurchasesController do
 
   describe "Editing an existing purchases" do   
     before :each do
-      Purchase.stubs(:find).with(1).returns(Factory.build(:transaction))      
+      Purchase.stubs(:find).with(1).returns(Factory.build(:purchase))      
     end
     
     it "edit action should render edit template" do
@@ -54,7 +54,7 @@ describe PurchasesController do
   
   describe "Destroying an existing purchase" do
     it "destroy action should destroy model and redirect to index action" do
-      Purchase.stubs(:find).with(1).returns(Factory.build(:transaction))      
+      Purchase.stubs(:find).with(1).returns(Factory.build(:purchase))      
       delete :destroy, :id => 1
       response.should redirect_to(purchases_url)
       Purchase.exists?(1).should be_false

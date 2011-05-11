@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Purchases" do    
   before :each do 
-    @transaction = Factory(:transaction)
+    @transaction = Factory(:purchase)
     @asset = Asset.first      
   end
 

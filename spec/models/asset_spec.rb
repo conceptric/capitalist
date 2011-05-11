@@ -33,8 +33,8 @@ end
 describe Asset, ".amount_paid" do
   it "should return the sum of the transaction values" do
     asset = Factory(:asset)
-    Factory(:transaction, :asset => asset)
-    Factory(:transaction, :asset => asset)
+    Factory(:purchase, :asset => asset)
+    Factory(:purchase, :asset => asset)
     asset.amount_paid.should eql(200.20)
   end
   
@@ -47,8 +47,8 @@ end
 describe Asset, ".units_held" do
   it "should return the sum of the transaction units" do
     asset = Factory(:asset)
-    Factory(:transaction, :asset => asset)
-    Factory(:transaction, :asset => asset)
+    Factory(:purchase, :asset => asset)
+    Factory(:purchase, :asset => asset)
     asset.units_held.should eql(10)
   end
   
@@ -61,15 +61,15 @@ end
 describe Asset, ".average_purchase_price" do
   it "should return the average price of the units held" do
     asset = Factory(:asset)
-    Factory(:transaction, :asset => asset)
-    Factory(:transaction, :asset => asset)
+    Factory(:purchase, :asset => asset)
+    Factory(:purchase, :asset => asset)
     asset.average_purchase_price.should eql(20.02)
   end
   
   it "should return zero with a purchase value but no units" do
     asset = Factory(:asset)
     Purchase.any_instance.stubs(:valid?).returns(true)
-    Factory(:transaction, :asset => asset, :units => 0)
+    Factory(:purchase, :asset => asset, :units => 0)
     asset.average_purchase_price.should eql(0)    
   end
 end

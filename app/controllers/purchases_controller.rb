@@ -1,16 +1,16 @@
 class PurchasesController < ApplicationController
   def index
-    @purchases = Purchase.all
+    @transactions = Purchase.all
   end
   
   def new
     @assets = Asset.all
-    @purchase = Purchase.new
+    @transaction = Purchase.new
   end
 
   def create
-    @purchase = Purchase.new(params[:purchase])
-    if @purchase.save
+    @transaction = Purchase.new(params[:purchase])
+    if @transaction.save
       redirect_to purchases_url, :notice => "Successfully created transaction."
     else
       render :action => 'new'
@@ -18,12 +18,12 @@ class PurchasesController < ApplicationController
   end
 
   def edit
-    @purchase = Purchase.find(params[:id])
+    @transaction = Purchase.find(params[:id])
   end     
 
   def update
-    @purchase = Purchase.find(params[:id])
-    if @purchase.update_attributes(params[:purchase])
+    @transaction = Purchase.find(params[:id])
+    if @transaction.update_attributes(params[:purchase])
       redirect_to purchases_url, :notice => "Successfully updated transaction."
     else
       render :action => 'edit'
@@ -31,8 +31,8 @@ class PurchasesController < ApplicationController
   end
   
   def destroy
-    @purchase = Purchase.find(params[:id])
-    @purchase.destroy
+    @transaction = Purchase.find(params[:id])
+    @transaction.destroy
     redirect_to purchases_url, :notice => "Successfully destroyed transaction."
   end
 end

@@ -7,7 +7,7 @@
     %th Units
     %th Total value
     %th Cost
-  - for transaction in @sales
+  - for transaction in @transactions
     %tr
       %td= transaction.date.strftime("%d %B %Y")
       %td= transaction.asset.name

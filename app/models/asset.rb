@@ -13,4 +13,8 @@ class Asset < ActiveRecord::Base
   def units_held
     transactions.sum('units')
   end
+  
+  def average_purchase_price
+    amount_paid / units_held
+  end
 end

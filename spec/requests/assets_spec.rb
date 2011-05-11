@@ -111,7 +111,18 @@ describe "Assets" do
       end      
     end
       
-    it "should calculate the averaged buying price"
+    it "should calculate the averaged buying price" do
+      asset = Factory(:asset)
+      Factory(:transaction, :asset => asset)
+      Factory(:transaction, :asset => asset)
+      visit assets_path
+      click_link "Show"
+      within('#position') do
+        within('#average_purchase_price') do
+          page.should have_content('100.10')
+        end
+      end      
+    end
 
     it "should list the sell transactions for an asset"
     it "should calculate the capital gain for each selling transaction"

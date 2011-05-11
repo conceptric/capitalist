@@ -47,3 +47,12 @@ describe Asset, ".units_held" do
     asset.units_held.should eql(2)
   end
 end
+
+describe Asset, ".average_purchase_price" do
+  it "should return the average price of the units held" do
+    asset = Factory(:asset)
+    Factory(:transaction, :asset => asset)
+    Factory(:transaction, :asset => asset)
+    asset.average_purchase_price.should eql(100.10)
+  end
+end

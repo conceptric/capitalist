@@ -114,7 +114,11 @@ describe Sale, ".new" do
       @transaction.should_not be_valid
     end                               
     
-    it "should not be valid if selling more units than have been purchased"
+    it "should not be valid if selling more units than have been purchased" do
+      @transaction.units = 10
+      @transaction.should_not be_valid
+    end
+    
     it "should not be valid if the sale is before the purchase"
   end
 end

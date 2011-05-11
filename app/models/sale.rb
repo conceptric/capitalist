@@ -1,8 +1,15 @@
 class Sale < Transaction
-  validate :asset_held?
+  validate :asset_held?, :units_to_cover_sale?, 
+           :unless => Proc.new { |a| a.asset.nil? || a.units.nil? }
   
   def asset_held?
     errors.add(:nothing_to_sell, "you don't hold this Asset") if
-      asset == nil || Purchase.where(:asset_id => asset.id).empty?
+      Purchase.where(:asset_id => asset.id).empty?
+  end                                          
+  
+  def units_to_cover_sale?
+    errors.add(:selling_too_many_units, 
+               "you don't hold enough units in this Asset to cover the sale") if
+      Purchase.where(:asset_id => asset.id).sum('units') < units
   end
 end

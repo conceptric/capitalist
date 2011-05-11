@@ -1,0 +1,21 @@
+- title "Transactions"
+
+%table
+  %tr
+    %th Date
+    %th Asset
+    %th Units
+    %th Total value
+    %th Cost
+  - for transaction in @sales
+    %tr
+      %td= transaction.date.strftime("%d %B %Y")
+      %td= transaction.asset.name
+      %td= transaction.units
+      %td= number_to_currency(transaction.total_value, :unit => '£')
+      %td= number_to_currency(transaction.cost, :unit => '£')
+      %td= link_to 'Edit', edit_sale_path(transaction)
+      %td= link_to 'Destroy', transaction, :confirm => 'Are you sure?', :method => :delete
+
+%p= link_to "New Sale", new_sale_path
+                                                                            

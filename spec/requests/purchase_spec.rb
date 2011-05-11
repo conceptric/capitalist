@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe "Transactions" do    
+describe "Purchases" do    
   before :each do 
     @transaction = Factory(:transaction)
     @asset = Asset.first      
   end
 
   describe "Read" do
-    it "displays all the existing transactions" do
-      visit transactions_path
+    it "displays all the existing purchases" do
+      visit purchases_path
       page.should have_content('1 January 2010')
       page.should have_content(@asset.name)
       page.should have_content('100.10')
@@ -17,17 +17,17 @@ describe "Transactions" do
   end
 
   describe "Create" do
-    it "creates an transaction with valid input" do
-      visit transactions_path
-      click_link "New Transaction"
-      select('2009', :from => 'transaction_date_1i') 
-      select('February', :from => 'transaction_date_2i') 
-      select('14', :from => 'transaction_date_3i') 
-      select(@asset.name, :from => 'transaction_asset_id')       
+    it "creates an purchase with valid input" do
+      visit purchases_path
+      click_link "New Purchase"
+      select('2009', :from => 'purchase[date(1i)]') 
+      select('February', :from => 'purchase[date(2i)]') 
+      select('14', :from => 'purchase[date(3i)]') 
+      select(@asset.name, :from => 'purchase_asset_id')       
       fill_in "Units", :with => "125"
       fill_in "Total value", :with => "1000.34"
       fill_in "Cost", :with => "10"
-      click_button "Create Transaction" 
+      click_button "Create Purchase" 
       page.should have_content("Successfully created transaction")
       page.should have_content('14 February 2009')
       page.should have_content(@asset.name)
@@ -37,36 +37,36 @@ describe "Transactions" do
     end
   
     it "provides validation warnings with valid input" do
-      visit transactions_path
-      click_link "New Transaction"
-      click_button "Create Transaction"          
+      visit purchases_path
+      click_link "New Purchase"
+      click_button "Create Purchase"          
       page.should have_content("Invalid Field") 
       page.should have_content("Asset can't be blank")
       page.should have_content("There are too few units")
     end
 
-    it "creates an transaction with valid input" do
-      visit transactions_path
-      click_link "New Transaction"
-      select(@asset.name, :from => 'transaction_asset_id')       
+    it "creates an purchase with valid input" do
+      visit purchases_path
+      click_link "New Purchase"
+      select(@asset.name, :from => 'purchase_asset_id')       
       fill_in "Units", :with => "-1"
-      click_button "Create Transaction" 
+      click_button "Create Purchase" 
       page.should have_content("Invalid Field") 
       page.should have_content("There are too few units")
     end
   end
   
   describe "Update" do
-    it "creates an transaction with valid input" do
-      visit transactions_path
+    it "creates an purchase with valid input" do
+      visit purchases_path
       click_link "Edit"
-      select('2009', :from => 'transaction_date_1i') 
-      select('February', :from => 'transaction_date_2i') 
-      select('14', :from => 'transaction_date_3i') 
+      select('2009', :from => 'purchase[date(1i)]') 
+      select('February', :from => 'purchase[date(2i)]') 
+      select('14', :from => 'purchase[date(3i)]') 
       fill_in "Units", :with => "215"
       fill_in "Total value", :with => "1700"
       fill_in "Cost", :with => "12.50"
-      click_button "Update Transaction" 
+      click_button "Update Purchase" 
       page.should have_content("Successfully updated transaction")
       page.should have_content('14 February 2009')
       page.should have_content(@asset.name)
@@ -76,21 +76,21 @@ describe "Transactions" do
     end
   
     it "provides validation warnings with valid input" do
-      visit transactions_path
+      visit purchases_path
       click_link "Edit"
-      select('', :from => 'transaction_asset_id')       
+      select('', :from => 'purchase_asset_id')       
       fill_in "Units", :with => "0"
-      click_button "Update Transaction"          
+      click_button "Update Purchase"          
       page.should have_content("Invalid Field") 
       page.should have_content("Asset can't be blank")
       page.should have_content("There are too few units")
     end
 
-    it "creates an transaction with valid input" do
-      visit transactions_path
+    it "creates an purchase with valid input" do
+      visit purchases_path
       click_link "Edit"
       fill_in "Units", :with => "-1"
-      click_button "Update Transaction" 
+      click_button "Update Purchase" 
       page.should have_content("Invalid Field") 
       page.should have_content("There are too few units")
     end
@@ -98,7 +98,7 @@ describe "Transactions" do
   
   describe "Delete" do
     it "should delete an existing transaction" do  
-      visit transactions_path
+      visit purchases_path
       click_link "Destroy"
       page.should_not have_content('1 January 2010')
       page.should_not have_content(@asset.name)

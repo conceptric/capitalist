@@ -68,7 +68,7 @@ describe Asset, ".average_purchase_price" do
   
   it "should return zero with a purchase value but no units" do
     asset = Factory(:asset)
-    Transaction.any_instance.stubs(:valid?).returns(true)
+    Purchase.any_instance.stubs(:valid?).returns(true)
     Factory(:transaction, :asset => asset, :units => 0)
     asset.average_purchase_price.should eql(0)    
   end

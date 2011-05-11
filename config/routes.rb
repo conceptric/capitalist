@@ -1,5 +1,5 @@
 Capitalist::Application.routes.draw do
-  resources :transactions
+  resources :purchases
   resources :assets    
   root :to => "assets#index"
 end

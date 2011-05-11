@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110420161242) do
+ActiveRecord::Schema.define(:version => 20110511110138) do
 
   create_table "assets", :force => true do |t|
     t.string   "name"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20110420161242) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "units",       :precision => 12, :scale => 5
+    t.string   "type"
   end
 
 end

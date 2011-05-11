@@ -37,6 +37,11 @@ describe Asset, ".amount_paid" do
     Factory(:transaction, :asset => asset)
     asset.amount_paid.should eql(200.20)
   end
+  
+  it "should return zero when there are no transactions" do
+    asset = Factory(:asset)
+    asset.amount_paid.should eql(0)    
+  end
 end
 
 describe Asset, ".units_held" do
@@ -45,6 +50,11 @@ describe Asset, ".units_held" do
     Factory(:transaction, :asset => asset)
     Factory(:transaction, :asset => asset)
     asset.units_held.should eql(10)
+  end
+  
+  it "should return zero when there are no transactions" do
+    asset = Factory(:asset)
+    asset.units_held.should eql(0)    
   end
 end
 

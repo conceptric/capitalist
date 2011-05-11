@@ -84,9 +84,9 @@ end
 
 describe Sale, ".new" do
   before :each do
-    asset = Factory(:asset)
-    Factory(:purchase, :asset => asset)
-    @transaction = Factory.build(:sale, :asset => asset)
+    @asset = Factory(:asset)
+    Factory(:purchase, :asset => @asset)
+    @transaction = Factory.build(:sale, :asset => @asset)
   end
   
   it_should_behave_like "A Transaction"
@@ -119,6 +119,15 @@ describe Sale, ".new" do
       @transaction.should_not be_valid
     end
     
-    it "should not be valid if the sale is before the purchase"
+    it "should not be valid if the sale is before the purchase" do
+      @transaction.date = Date.new(2009,1,1)
+      @transaction.should_not be_valid
+    end
+
+    it "should not be valid if too few units where purchased before the sale" do
+      Factory(:purchase, :asset => @asset, :date => Date.new(2011,2,1))
+      @transaction.units = 10
+      @transaction.should_not be_valid
+    end
   end
 end

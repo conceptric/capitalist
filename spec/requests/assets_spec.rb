@@ -85,7 +85,7 @@ describe "Assets" do
       end
     end
 
-    it "should calculate the total number of units" do
+    it "should calculate the value of assets bought" do
       asset = Factory(:asset)
       Factory(:transaction, :asset => asset)
       Factory(:transaction, :asset => asset)
@@ -94,6 +94,19 @@ describe "Assets" do
       within('#position') do
         within('#amount_paid') do
           page.should have_content('200.20')
+        end
+      end      
+    end
+
+    it "should calculate the total number of units bought" do
+      asset = Factory(:asset)
+      Factory(:transaction, :asset => asset)
+      Factory(:transaction, :asset => asset)
+      visit assets_path
+      click_link "Show"
+      within('#position') do
+        within('#units_held') do
+          page.should have_content('2')
         end
       end      
     end

@@ -38,3 +38,12 @@ describe Asset, ".amount_paid" do
     asset.amount_paid.should eql(200.20)
   end
 end
+
+describe Asset, ".units_held" do
+  it "should return the sum of the transaction units" do
+    asset = Factory(:asset)
+    Factory(:transaction, :asset => asset)
+    Factory(:transaction, :asset => asset)
+    asset.units_held.should eql(2)
+  end
+end

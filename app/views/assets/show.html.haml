@@ -4,6 +4,7 @@
 
 %ul#position
   %li#amount_paid= "Position purchase value = #{number_to_currency(@asset.amount_paid, :unit => '£')}"
+  %li#units_held= "Position units = #{@asset.units_held}"
       
 %h2 Transactions
 

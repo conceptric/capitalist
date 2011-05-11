@@ -8,5 +8,9 @@ class Asset < ActiveRecord::Base
 
   def amount_paid
     transactions.sum('total_value')
-  end            
+  end                              
+  
+  def units_held
+    transactions.sum('units')
+  end
 end

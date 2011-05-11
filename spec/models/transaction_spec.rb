@@ -1,10 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Transaction, ".new" do
-  before :each do
-    @transaction = Factory.build(:purchase)
-  end
-
+shared_examples_for "A Transaction" do
   it "should be valid" do
     @transaction.should be_valid    
   end
@@ -14,11 +10,6 @@ describe Transaction, ".new" do
       @transaction.date = nil
       @transaction.should_not be_valid
     end
-
-    it "should have a valid date" do
-      @transaction.date.should be_instance_of(Date)
-      @transaction.date.should eql(Date.new(2010,1,1))
-    end    
   end
 
   describe "Asset attribute" do
@@ -64,8 +55,54 @@ describe Transaction, ".new" do
     end                                   
   end
 
-  it "should return the correct value and cost decimal values" do
-    @transaction.total_value.should eql(100.10)
-    @transaction.cost.should eql(10.01)
+end
+
+describe Purchase, ".new" do
+  before :each do
+    @transaction = Factory.build(:purchase)
+  end
+  
+  it_should_behave_like "A Transaction"
+
+  describe "Decimal attributes" do
+    it "should return the correct value decimal" do
+      @transaction.total_value.should eql(100.10)
+    end  
+
+    it "should return the correct cost decimal" do
+      @transaction.cost.should eql(10.01)
+    end      
+  end                      
+
+  describe "Date attribute" do
+    it "should have a valid date" do
+      @transaction.date.should be_instance_of(Date)
+      @transaction.date.should eql(Date.new(2010,1,1))
+    end    
+  end
+end
+
+describe Sale, ".new" do
+  before :each do
+    @transaction = Factory.build(:sale)
+  end
+  
+  it_should_behave_like "A Transaction"
+
+  describe "Decimal attributes" do
+    it "should return the correct value decimal" do
+      @transaction.total_value.should eql(200.10)
+    end  
+
+    it "should return the correct cost decimal" do
+      @transaction.cost.should eql(10.01)
+    end      
+  end                      
+
+  describe "Date attribute" do
+    it "should have a valid date" do
+      @transaction.date.should be_instance_of(Date)
+      @transaction.date.should eql(Date.new(2011,1,1))
+    end    
   end
 end

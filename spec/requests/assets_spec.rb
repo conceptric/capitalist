@@ -74,26 +74,33 @@ describe "Assets" do
     before(:each) do
       @asset = Factory(:asset)
       Factory(:purchase, :asset => @asset)      
+      Factory(:purchase, :date => Date.new(2011,3,1), :asset => @asset)      
       Factory(:sale, :asset => @asset)
     end         
     
-    it "should show me a list of all the transactions for the asset" do
+    it "should show me a list of transactions for the asset order by date" do
       visit assets_path
       click_link "Show"
-      page.should have_content(@asset.name)
-      within('.purchase') do
-        page.should have_content('1 January 2010')
-        page.should have_content('5')
-        page.should have_content('100.10')
-        page.should have_content('10.01')
-        page.should have_content('Purchase')
-      end
-      within('.sale') do
-        page.should have_content('1 January 2011')
-        page.should have_content('5')
-        page.should have_content('200.10')
-        page.should have_content('10.01')
-        page.should have_content('Sale')
+      page.should have_content(@asset.name) 
+      within('#transactions') do
+        within(:xpath, './/tr[2]') do
+          page.should have_content('1 January 2010')
+          page.should have_content('5')
+          page.should have_content('100.10')
+          page.should have_content('Purchase')
+        end
+        within(:xpath, './/tr[3]') do
+          page.should have_content('1 January 2011')
+          page.should have_content('5')
+          page.should have_content('200.10')
+          page.should have_content('Sale')
+        end
+        within(:xpath, './/tr[4]') do
+          page.should have_content('1 March 2011')
+          page.should have_content('5')
+          page.should have_content('100.10')
+          page.should have_content('Purchase')
+        end
       end
     end
 
@@ -103,7 +110,7 @@ describe "Assets" do
       click_link "Show"
       within('#position') do
         within('#amount_paid') do
-          page.should have_content('200.20')
+          page.should have_content('300.30')
         end
       end      
     end
@@ -114,7 +121,7 @@ describe "Assets" do
       click_link "Show"
       within('#position') do
         within('#units_held') do
-          page.should have_content('10')
+          page.should have_content('15')
         end
       end      
     end

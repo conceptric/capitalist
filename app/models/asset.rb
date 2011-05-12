@@ -1,7 +1,7 @@
 class Asset < ActiveRecord::Base
   attr_accessible :name, :description
-  has_many :transactions
-  has_many :purchases
+  has_many :transactions, :order => "date ASC"
+  has_many :purchases, :order => "date ASC"
   
   validates :name, :presence => true, 
             :uniqueness => true,

@@ -7,7 +7,7 @@ class Asset < ActiveRecord::Base
             :length => {:maximum => 20}
 
   def amount_paid
-    transactions.sum('total_value')
+    transactions.sum('value')
   end                              
   
   def units_held

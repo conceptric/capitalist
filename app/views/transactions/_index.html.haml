@@ -3,14 +3,14 @@
     %th Date
     %th Asset
     %th Units
-    %th Total value
-    %th Cost
+    %th Value
+    %th Expenses
   - for transaction in @transactions
     %tr
       %td= transaction.date.strftime("%d %B %Y")
       %td= transaction.asset.name
       %td= transaction.units
-      %td= number_to_currency(transaction.total_value, :unit => '£')
-      %td= number_to_currency(transaction.cost, :unit => '£')
+      %td= number_to_currency(transaction.value, :unit => '£')
+      %td= number_to_currency(transaction.expenses, :unit => '£')
       %td= link_to 'Edit', url_for([:edit, transaction])
       %td= link_to 'Destroy', transaction, :confirm => 'Are you sure?', :method => :delete        

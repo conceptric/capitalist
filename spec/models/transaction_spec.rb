@@ -66,11 +66,11 @@ describe Purchase, ".new" do
 
   describe "Decimal attributes" do
     it "should return the correct value decimal" do
-      @transaction.total_value.should eql(100.10)
+      @transaction.value.should eql(100.10)
     end  
 
     it "should return the correct cost decimal" do
-      @transaction.cost.should eql(10.01)
+      @transaction.expenses.should eql(10.01)
     end      
   end                      
 
@@ -93,11 +93,11 @@ describe Sale, ".new" do
 
   describe "Decimal attributes" do
     it "should return the correct value decimal" do
-      @transaction.total_value.should eql(200.10)
+      @transaction.value.should eql(200.10)
     end  
 
     it "should return the correct cost decimal" do
-      @transaction.cost.should eql(10.01)
+      @transaction.expenses.should eql(10.01)
     end      
   end                      
 

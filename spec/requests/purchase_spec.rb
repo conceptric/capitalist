@@ -25,8 +25,8 @@ describe "Purchases" do
       select('14', :from => 'purchase[date(3i)]') 
       select(@asset.name, :from => 'purchase_asset_id')       
       fill_in "Units", :with => "125"
-      fill_in "Total value", :with => "1000.34"
-      fill_in "Cost", :with => "10"
+      fill_in "Value", :with => "1000.34"
+      fill_in "Expenses", :with => "10"
       click_button "Create Purchase" 
       page.should have_content("Successfully created transaction")
       page.should have_content('14 February 2009')
@@ -64,8 +64,8 @@ describe "Purchases" do
       select('February', :from => 'purchase[date(2i)]') 
       select('14', :from => 'purchase[date(3i)]') 
       fill_in "Units", :with => "215"
-      fill_in "Total value", :with => "1700"
-      fill_in "Cost", :with => "12.50"
+      fill_in "Value", :with => "1700"
+      fill_in "Expenses", :with => "12.50"
       click_button "Update Purchase" 
       page.should have_content("Successfully updated transaction")
       page.should have_content('14 February 2009')

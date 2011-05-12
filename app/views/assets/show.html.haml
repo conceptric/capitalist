@@ -14,13 +14,13 @@
     %th Date
     %th Units
     %th Value
-    %th Costs
+    %th Expenses
   - for transaction in @asset.transactions
     %tr.transaction
       %td= transaction.date.strftime("%d %B %Y")
       %td= transaction.units
-      %td= number_to_currency(transaction.total_value, :unit => '£')
-      %td= number_to_currency(transaction.cost, :unit => '£')
+      %td= number_to_currency(transaction.value, :unit => '£')
+      %td= number_to_currency(transaction.expenses, :unit => '£')
 
 %p
   = link_to "View All", assets_path

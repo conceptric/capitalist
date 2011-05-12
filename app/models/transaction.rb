@@ -1,6 +1,6 @@
 class Transaction < ActiveRecord::Base
   belongs_to :asset
-  attr_accessible :date, :asset_id, :units, :total_value, :cost
+  attr_accessible :date, :asset_id, :units, :value, :expenses
   
   validates_presence_of :date, :asset_id, :units
   validates_numericality_of :units, 

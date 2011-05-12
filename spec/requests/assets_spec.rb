@@ -81,11 +81,19 @@ describe "Assets" do
       visit assets_path
       click_link "Show"
       page.should have_content(@asset.name)
-      within('.transaction') do
+      within('.purchase') do
         page.should have_content('1 January 2010')
         page.should have_content('5')
         page.should have_content('100.10')
         page.should have_content('10.01')
+        page.should have_content('Purchase')
+      end
+      within('.sale') do
+        page.should have_content('1 January 2011')
+        page.should have_content('5')
+        page.should have_content('200.10')
+        page.should have_content('10.01')
+        page.should have_content('Sale')
       end
     end
 
@@ -121,8 +129,6 @@ describe "Assets" do
         end
       end      
     end
-
-    it "should list the sell transactions for an asset"
 
     it "should calculate the capital gain for each selling transaction"
     it "should calculate the remaining number of units"

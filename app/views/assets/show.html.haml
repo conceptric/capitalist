@@ -15,12 +15,14 @@
     %th Units
     %th Value
     %th Expenses
+    %th Action
   - for transaction in @asset.transactions
-    %tr.transaction
+    %tr{:class => "#{transaction.type.downcase}"}
       %td= transaction.date.strftime("%d %B %Y")
       %td= transaction.units
       %td= number_to_currency(transaction.value, :unit => '£')
       %td= number_to_currency(transaction.expenses, :unit => '£')
+      %td= transaction.type
 
 %p
   = link_to "View All", assets_path

@@ -45,31 +45,65 @@ describe Asset, ".amount_paid" do
 end
 
 describe Asset, ".units_held" do
-  it "should return the sum of the transaction units" do
+  it "should be zero when there are no transactions" do
+    asset = Factory(:asset)
+    asset.units_held.should eql(0)    
+  end
+
+  it "should be the units for a purchase" do
+    asset = Factory(:asset)
+    Factory(:purchase, :asset => asset)
+    asset.units_held.should eql(5)
+  end
+
+  it "should be the sum of the units for two purchases" do
     asset = Factory(:asset)
     Factory(:purchase, :asset => asset)
     Factory(:purchase, :asset => asset)
     asset.units_held.should eql(10)
   end
   
-  it "should return zero when there are no transactions" do
+  it "should be the difference between the units purchased and sold" do
     asset = Factory(:asset)
-    asset.units_held.should eql(0)    
+    Factory(:purchase, :asset => asset)
+    Factory(:sale, :asset => asset)
+    asset.units_held.should eql(0)
   end
 end
 
-describe Asset, ".average_purchase_price" do
-  it "should return the average price of the units held" do
-    asset = Factory(:asset)
-    Factory(:purchase, :asset => asset)
-    Factory(:purchase, :asset => asset)
-    asset.average_purchase_price.should eql(20.02)
-  end
-  
-  it "should return zero with a purchase value but no units" do
+describe Asset, ".unit_price" do
+  it "should be zero when there are no units" do
     asset = Factory(:asset)
     Purchase.any_instance.stubs(:valid?).returns(true)
     Factory(:purchase, :asset => asset, :units => 0)
-    asset.average_purchase_price.should eql(0)    
+    asset.unit_price.should eql(0)    
   end
+
+  it "should be the average unit price for a single purchase" do
+    asset = Factory(:asset)
+    Factory(:purchase, :asset => asset)
+    asset.unit_price.should eql(20.02)
+  end
+
+  it "should be the average unit price for two purchases" do
+    asset = Factory(:asset)
+    Factory(:purchase, :asset => asset)
+    Factory(:purchase, :asset => asset)
+    asset.unit_price.should eql(20.02)
+  end
+
+  it "should be zero for a complete purchase and sale cycle" do
+    asset = Factory(:asset)
+    Factory(:purchase, :asset => asset)
+    Factory(:sale, :asset => asset)
+    asset.unit_price.should eql(0)
+  end
+
+  it "should be the average of two purchases if partially sold" do
+    asset = Factory(:asset)
+    Factory(:purchase, :asset => asset)
+    Factory(:sale, :asset => asset)
+    Factory(:purchase, :asset => asset)
+    asset.unit_price.should eql(20.02)
+  end  
 end

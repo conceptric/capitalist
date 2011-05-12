@@ -121,7 +121,7 @@ describe "Assets" do
       click_link "Show"
       within('#position') do
         within('#units_held') do
-          page.should have_content('15')
+          page.should have_content('10')
         end
       end      
     end
@@ -131,7 +131,7 @@ describe "Assets" do
       visit assets_path
       click_link "Show"
       within('#position') do
-        within('#average_purchase_price') do
+        within('#unit_price') do
           page.should have_content('20.02')
         end
       end      

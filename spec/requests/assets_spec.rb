@@ -74,6 +74,7 @@ describe "Assets" do
     before(:each) do
       @asset = Factory(:asset)
       Factory(:purchase, :asset => @asset)      
+      Factory(:sale, :asset => @asset)
     end         
     
     it "should show me a list of all the transactions for the asset" do
@@ -82,7 +83,7 @@ describe "Assets" do
       page.should have_content(@asset.name)
       within('.transaction') do
         page.should have_content('1 January 2010')
-        page.should have_content('1')
+        page.should have_content('5')
         page.should have_content('100.10')
         page.should have_content('10.01')
       end
@@ -122,6 +123,7 @@ describe "Assets" do
     end
 
     it "should list the sell transactions for an asset"
+
     it "should calculate the capital gain for each selling transaction"
     it "should calculate the remaining number of units"
 

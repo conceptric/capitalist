@@ -1,17 +1,18 @@
 class Asset < ActiveRecord::Base
   attr_accessible :name, :description
   has_many :transactions
+  has_many :purchases
   
   validates :name, :presence => true, 
             :uniqueness => true,
             :length => {:maximum => 20}
 
   def amount_paid
-    transactions.sum('value')
+    purchases.sum('value')
   end                              
   
   def units_held
-    transactions.sum('units')
+    purchases.sum('units')
   end
   
   def average_purchase_price

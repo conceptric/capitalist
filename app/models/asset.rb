@@ -9,19 +9,11 @@ class Asset < ActiveRecord::Base
             :uniqueness => true,
             :length => {:maximum => 20}
 
-  def amount_paid
-    purchases.sum('value')
-  end                              
-  
-  def units_held
-    purchases.sum('units') - sales.sum('units')
-  end
-  
-  def unit_price
-    if units_held > 0
-      amount_paid / purchases.sum('units')
-    else
-      0
+  def units_held 
+    total = 0
+    positions.each do |position|
+      total += position.current_units
     end
-  end
+    total
+  end  
 end

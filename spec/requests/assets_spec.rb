@@ -73,9 +73,7 @@ describe "Assets" do
   describe "Show" do   
     before(:each) do
       @asset = Factory(:asset)
-      @position = Factory(:position, :asset => @asset)
-      Factory(:purchase, :asset => @asset, :position => @position)      
-      Factory(:sale, :asset => @asset, :position => @position)
+      Factory(:closed_position, :asset => @asset)
     end         
 
     it "should show me a list of closed positions for the asset" do
@@ -97,7 +95,7 @@ describe "Assets" do
     end
     
     it "should calculate the total number of units currently being held" do
-      Factory(:purchase, :asset => @asset)
+      Factory(:open_position, :asset => @asset)
       visit assets_path
       click_link "Show"
       within('#total_units') do

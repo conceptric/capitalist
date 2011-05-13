@@ -90,32 +90,6 @@ describe "Assets" do
       end
     end
     
-    it "should show me a list of transactions for the asset order by date" do
-      visit assets_path
-      click_link "Show"
-      page.should have_content(@asset.name) 
-      within('#transactions') do
-        within(:xpath, './/tr[2]') do
-          page.should have_content('1 January 2010')
-          page.should have_content('5')
-          page.should have_content('100.10')
-          page.should have_content('Purchase')
-        end
-        within(:xpath, './/tr[3]') do
-          page.should have_content('1 January 2011')
-          page.should have_content('5')
-          page.should have_content('200.10')
-          page.should have_content('Sale')
-        end
-        within(:xpath, './/tr[4]') do
-          page.should have_content('1 March 2011')
-          page.should have_content('5')
-          page.should have_content('100.10')
-          page.should have_content('Purchase')
-        end
-      end
-    end
-
     it "should calculate the value of assets bought" do
       Factory(:purchase, :asset => @asset)
       visit assets_path

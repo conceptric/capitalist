@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110513091240) do
+ActiveRecord::Schema.define(:version => 20110513104251) do
 
   create_table "assets", :force => true do |t|
     t.string   "name"
@@ -28,12 +28,13 @@ ActiveRecord::Schema.define(:version => 20110513091240) do
   create_table "transactions", :force => true do |t|
     t.date     "date"
     t.integer  "asset_id"
-    t.decimal  "value",      :precision => 10, :scale => 3
-    t.decimal  "expenses",   :precision => 10, :scale => 3
+    t.decimal  "value",       :precision => 10, :scale => 3
+    t.decimal  "expenses",    :precision => 10, :scale => 3
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "units",      :precision => 12, :scale => 5
+    t.decimal  "units",       :precision => 12, :scale => 5
     t.string   "type"
+    t.integer  "position_id"
   end
 
 end

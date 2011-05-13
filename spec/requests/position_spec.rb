@@ -60,4 +60,41 @@ describe "Positions" do
       page.should_not have_content(@asset.name)
     end
   end
+  
+  describe "Show" do   
+    before(:each) do
+      @asset = Factory(:asset)
+      @position = Factory(:position, :asset => @asset)
+      Factory(:purchase, :asset => @asset, :position => @position)      
+      Factory(:purchase, :date => Date.new(2011,3,1), 
+              :asset => @asset, :position => @position)      
+      Factory(:sale, :asset => @asset, :position => @position)
+    end
+    
+    it "should show me a list of transactions for the position order by date" do
+      visit asset_path(@asset)
+      click_link "Show"
+      page.should have_content(@asset.name) 
+      within('#transactions') do
+        within(:xpath, './/tr[2]') do
+          page.should have_content('1 January 2010')
+          page.should have_content('5')
+          page.should have_content('100.10')
+          page.should have_content('Purchase')
+        end
+        within(:xpath, './/tr[3]') do
+          page.should have_content('1 January 2011')
+          page.should have_content('5')
+          page.should have_content('200.10')
+          page.should have_content('Sale')
+        end
+        within(:xpath, './/tr[4]') do
+          page.should have_content('1 March 2011')
+          page.should have_content('5')
+          page.should have_content('100.10')
+          page.should have_content('Purchase')
+        end
+      end
+    end
+   end
 end

@@ -1,6 +1,19 @@
 - title "Summary of #{@position.asset.name} Holdings"
 
-%h2 Position Summary
+%h2 Transactions
+
+%table#transactions
+  %tr
+    %th Date
+    %th Action
+    %th Units
+    %th Value
+  - for transaction in @position.transactions
+    %tr{:class => "#{transaction.type.downcase}"}
+      %td= transaction.date.strftime("%d %B %Y")
+      %td= transaction.type
+      %td= transaction.units
+      %td= number_to_currency(transaction.value, :unit => '£')
 
 %p
   = link_to "View All", positions_path

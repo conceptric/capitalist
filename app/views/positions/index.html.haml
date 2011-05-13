@@ -1,0 +1,13 @@
+- title "Positions"
+
+%table
+  %tr
+    %th Asset
+  - for position in @positions
+    %tr
+      %td= position.asset.name
+      %td= link_to 'Show', position_path(position)
+      %td= link_to 'Edit', edit_position_path(position)
+      %td= link_to 'Destroy', position, :confirm => 'Are you sure?', :method => :delete
+
+%p= link_to "New Position", new_position_path

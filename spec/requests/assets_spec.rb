@@ -76,7 +76,19 @@ describe "Assets" do
       Factory(:purchase, :asset => @asset)      
       Factory(:purchase, :date => Date.new(2011,3,1), :asset => @asset)      
       Factory(:sale, :asset => @asset)
+      Factory(:position, :asset => @asset)
     end         
+
+    it "should show me a list of positions for the asset" do
+      visit assets_path
+      click_link "Show"
+      page.should have_content(@asset.name) 
+      within('#positions') do
+        within(:xpath, './/tr[2]') do
+          page.should have_content(@asset.name)
+        end
+      end
+    end
     
     it "should show me a list of transactions for the asset order by date" do
       visit assets_path

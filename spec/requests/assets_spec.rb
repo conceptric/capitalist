@@ -73,19 +73,25 @@ describe "Assets" do
   describe "Show" do   
     before(:each) do
       @asset = Factory(:asset)
-      Factory(:purchase, :asset => @asset)      
-      Factory(:purchase, :date => Date.new(2011,3,1), :asset => @asset)      
-      Factory(:sale, :asset => @asset)
-      Factory(:position, :asset => @asset)
+      @position = Factory(:position, :asset => @asset)
+      Factory(:purchase, :asset => @asset, :position => @position)      
+      Factory(:sale, :asset => @asset, :position => @position)
     end         
 
-    it "should show me a list of positions for the asset" do
+    it "should show me a list of closed positions for the asset" do
       visit assets_path
       click_link "Show"
       page.should have_content(@asset.name) 
       within('#positions') do
+        within(:xpath, './/tr[1]') do
+          page.should have_content('Asset')
+          page.should have_content('Units')          
+          page.should have_content('Status')
+        end
         within(:xpath, './/tr[2]') do
           page.should have_content(@asset.name)
+          page.should have_content('0')          
+          page.should have_content('Closed')          
         end
       end
     end
@@ -96,7 +102,7 @@ describe "Assets" do
       click_link "Show"
       within('#position') do
         within('#amount_paid') do
-          page.should have_content('300.30')
+          page.should have_content('200.20')
         end
       end      
     end
@@ -107,7 +113,7 @@ describe "Assets" do
       click_link "Show"
       within('#position') do
         within('#units_held') do
-          page.should have_content('10')
+          page.should have_content('5')
         end
       end      
     end

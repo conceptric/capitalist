@@ -12,9 +12,13 @@
 %table#positions
   %tr
     %th Asset
+    %th Units
+    %th Status
   - for position in @asset.positions
     %tr.position
       %td= position.asset.name
+      %td= position.current_units
+      %td= position.status
       %td= link_to 'Show', position
       
 %h2 Transactions

@@ -19,5 +19,63 @@ describe Position do
       @position.should_not be_valid
     end                                                            
   end
+end  
+
+describe Position, ".current_units" do
+  before(:each) do
+    @position = Factory(:position)
+    @asset = @position.asset    
+  end
+  
+  it "should be zero when there are no transactions" do
+    @position.current_units.should eql(0)    
+  end
+
+  it "should be the units for a purchase" do
+    Factory(:purchase, :position => @position, :asset => @asset)
+    @position.current_units.should eql(5)
+  end
+
+  it "should be the sum of the units for two purchases" do
+    Factory(:purchase, :position => @position, :asset => @asset)
+    Factory(:purchase, :position => @position, :asset => @asset)
+    @position.current_units.should eql(10)
+  end
+  
+  it "should be the difference between the units purchased and sold" do
+    Factory(:purchase, :position => @position, :asset => @asset)
+    Factory(:sale, :position => @position, :asset => @asset)
+    @position.current_units.should eql(0)
+  end
 end
+
+describe Position, ".status" do
+  before(:each) do
+    @position = Factory(:position)
+    @asset = @position.asset    
+  end
+  
+  it "should be open when there are no transactions" do
+    @position.status.should eql('Open')    
+  end
+
+  it "should be open after a purchase" do
+    Factory(:purchase, :position => @position, :asset => @asset)
+    @position.status.should eql('Open')    
+  end
+
+  it "should be open when some of the asset remains" do
+    Factory(:purchase, :position => @position, :asset => @asset)
+    Factory(:sale, :position => @position, :asset => @asset, :units => 2)
+    @position.current_units.should eql(3)
+    @position.status.should eql('Open')    
+  end
+  
+  it "should be closed when all the asset has been sold" do
+    Factory(:purchase, :position => @position, :asset => @asset)
+    Factory(:sale, :position => @position, :asset => @asset)
+    @position.status.should eql('Closed')    
+  end
+end
+
 

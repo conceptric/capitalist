@@ -16,9 +16,11 @@ describe PositionsController do
     end
 
     it "create action should redirect when model is valid" do
-      Position.any_instance.stubs(:valid?).returns(true)
+      Position.any_instance.stubs(:valid?).returns(true) 
+      position = Factory.build(:position, :id => 1)
+      Position.stubs(:find).with(1).returns(position)      
       post :create
-      response.should redirect_to(positions_url)
+      response.should redirect_to(position_path(position))
     end
   end
 
@@ -47,8 +49,10 @@ describe PositionsController do
 
     it "update action should redirect when model is valid" do
       Position.any_instance.stubs(:valid?).returns(true)
+      position = Factory.build(:position, :id => 1)
+      Position.stubs(:find).with(1).returns(position)      
       put :update, :id => 1
-      response.should redirect_to(positions_url)
+      response.should redirect_to(position_path(position))
     end
   end
   

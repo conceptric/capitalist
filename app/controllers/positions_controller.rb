@@ -14,7 +14,8 @@ class PositionsController < ApplicationController
   def create
     @position = Position.new(params[:position])
     if @position.save
-      redirect_to positions_url, :notice => "Successfully created position."
+      redirect_to position_path(@position), 
+        :notice => "Successfully created position."
     else
       render :action => 'new'
     end
@@ -27,7 +28,8 @@ class PositionsController < ApplicationController
   def update
     @position = Position.find(params[:id])
     if @position.update_attributes(params[:position])
-      redirect_to positions_url, :notice  => "Successfully updated position."
+      redirect_to position_path(@position), 
+        :notice  => "Successfully updated position."
     else
       render :action => 'edit'
     end

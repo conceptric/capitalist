@@ -6,7 +6,7 @@ class Asset < ActiveRecord::Base
             :uniqueness => true,
             :length => {:maximum => 20}
 
-  def units_held 
+  def current_units 
     total = 0
     positions.each do |position|
       total += position.current_units

@@ -30,23 +30,23 @@ describe Asset, ".new" do
   end
 end
 
-describe Asset, ".units_held" do
+describe Asset, ".current_units" do
   it "should be zero when there are no positions" do
     asset = Factory(:asset)
-    asset.units_held.should eql(0)    
+    asset.current_units.should eql(0)    
   end
 
   it "should be total units held a single position" do
     asset = Factory(:asset)
     Factory(:open_position, :asset => asset)
-    asset.units_held.should eql(5)
+    asset.current_units.should eql(5)
   end
 
   it "should be the sum of total units in two positions" do
     asset = Factory(:asset)
     Factory(:open_position, :asset => asset)
     Factory(:open_position, :asset => asset)
-    asset.units_held.should eql(10)
+    asset.current_units.should eql(10)
   end
 
   it "should be the sum of total units in two open and one closed position" do
@@ -54,6 +54,6 @@ describe Asset, ".units_held" do
     Factory(:open_position, :asset => asset)
     Factory(:open_position, :asset => asset)
     Factory(:closed_position, :asset => asset)
-    asset.units_held.should eql(10)
+    asset.current_units.should eql(10)
   end
 end

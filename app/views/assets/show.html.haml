@@ -2,10 +2,7 @@
 
 %h2 Position Summary
 
-%ul#position
-  %li#amount_paid= "Position purchase value = #{number_to_currency(@asset.amount_paid, :unit => '£')}"
-  %li#units_held= "Position units = #{@asset.units_held}"
-  %li#unit_price= "Position average purchase price = #{number_to_currency(@asset.unit_price, :unit => '£')}"
+%p#total_units= "You currently hold #{@asset.units_held} units"
 
 %h2 Positions
 

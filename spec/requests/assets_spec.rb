@@ -96,39 +96,15 @@ describe "Assets" do
       end
     end
     
-    it "should calculate the value of assets bought" do
+    it "should calculate the total number of units currently being held" do
       Factory(:purchase, :asset => @asset)
       visit assets_path
       click_link "Show"
-      within('#position') do
-        within('#amount_paid') do
-          page.should have_content('200.20')
-        end
-      end      
-    end
-
-    it "should calculate the total number of units bought" do
-      Factory(:purchase, :asset => @asset)
-      visit assets_path
-      click_link "Show"
-      within('#position') do
-        within('#units_held') do
-          page.should have_content('5')
-        end
-      end      
+      within('#total_units') do
+        page.should have_content('5')
+      end
     end
       
-    it "should calculate the averaged buying price" do
-      Factory(:purchase, :asset => @asset)
-      visit assets_path
-      click_link "Show"
-      within('#position') do
-        within('#unit_price') do
-          page.should have_content('20.02')
-        end
-      end      
-    end
-
     it "should calculate the capital gain for each selling transaction"
     it "should calculate the remaining number of units"
 

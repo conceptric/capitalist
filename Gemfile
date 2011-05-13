@@ -16,6 +16,7 @@ group :development do
   gem 'nifty-generators', '0.4.6'
   gem 'hpricot', '0.8.4'
   gem 'ruby_parser', '2.0.6'
+  gem 'hirb', '0.4.5'
 end                
 
 group :test do

@@ -36,6 +36,19 @@ describe "Positions" do
         end
       end
     end
+  
+    it "should be possible to return to the asset position summary from show" do
+      visit asset_path(@asset)
+      click_link "Show"
+      click_link "Asset Position List"      
+      current_path.should eql(asset_path(@asset))
+    end
+    
+    it "should calculate the capital gain for each selling transaction"
+    it "should calculate the remaining number of units"
+    it "should calculate the total units sold"
+    it "should calculated the total asset capital gain"
+    
   end
 
   describe "Create" do
@@ -44,7 +57,7 @@ describe "Positions" do
     end
 
     it "creates an position with valid input" do
-      visit positions_path
+      visit asset_path(@asset)
       click_link "New Position"
       select(@asset.name, :from => 'position_asset_id')       
       click_button "Create Position" 
@@ -53,22 +66,23 @@ describe "Positions" do
     end
     
     it "should display an error when no asset is select" do
-      visit positions_path
+      visit asset_path(@asset)
       click_link "New Position"
       click_button "Create Position" 
       page.should have_content("Invalid Field") 
       page.should have_content("Asset can't be blank")
-    end
+    end    
   end
 
   describe "Update" do       
     before :each do 
       Factory(:position)
+      @asset = Asset.first
     end
     
     it "updates an position with valid input" do
       Factory(:asset, :name => 'TEST')
-      visit positions_path
+      visit asset_path(@asset)
       click_link "Edit"
       select('TEST', :from => 'position_asset_id')       
       click_button "Update Position" 
@@ -77,12 +91,19 @@ describe "Positions" do
     end
     
     it "should display an error when no asset is select" do
-      visit positions_path
+      visit asset_path(@asset)
       click_link "Edit"
       select('', :from => 'position_asset_id')       
       click_button "Update Position" 
       page.should have_content("Invalid Field") 
       page.should have_content("Asset can't be blank")
+    end
+    
+    it "should be possible to return to the asset position summary from edit" do
+      visit asset_path(@asset)
+      click_link "Edit"
+      click_link "Asset Position List"      
+      current_path.should eql(asset_path(@asset))
     end
   end
 
@@ -90,9 +111,9 @@ describe "Positions" do
     it "should delete an existing position" do  
       Factory(:position)
       @asset = Asset.first      
-      visit positions_path
+      visit asset_path(@asset)
       click_link "Destroy"
       page.should_not have_content(@asset.name)
     end
-  end  
+  end                     
 end

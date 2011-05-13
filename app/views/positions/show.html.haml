@@ -15,5 +15,4 @@
       %td= transaction.units
       %td= number_to_currency(transaction.value, :unit => '£')
 
-%p
-  = link_to "View All", positions_path
+%p= link_to "Asset Position List", asset_path(@position.asset)

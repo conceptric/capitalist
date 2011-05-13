@@ -16,7 +16,10 @@
       %td= position.asset.name
       %td= position.current_units
       %td= position.status
-      %td= link_to 'Show', position
-      
-%p
-  = link_to "View All", assets_path
+      %td= link_to 'Show', position_path(position)
+      %td= link_to 'Edit', edit_position_path(position)
+      %td= link_to 'Destroy', position, :confirm => 'Are you sure?', :method => :delete
+            
+%ul
+  %li= link_to "View All", assets_path
+  %li= link_to "New Position", new_position_path

@@ -106,12 +106,6 @@ describe "Assets" do
       within('#total_units') do
         page.should have_content('5')
       end
-    end
-      
-    it "should calculate the capital gain for each selling transaction"
-    it "should calculate the remaining number of units"
-
-    it "should calculate the total units sold"
-    it "should calculated the total asset capital gain"
+    end      
   end
 end

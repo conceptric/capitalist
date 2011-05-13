@@ -74,9 +74,10 @@ describe "Assets" do
     before(:each) do
       @asset = Factory(:asset)
       Factory(:closed_position, :asset => @asset)
+      Factory(:open_position, :asset => @asset)
     end         
 
-    it "should show me a list of closed positions for the asset" do
+    it "should show me a list of positions for the asset" do
       visit assets_path
       click_link "Show"
       page.should have_content(@asset.name) 
@@ -91,11 +92,15 @@ describe "Assets" do
           page.should have_content('0')          
           page.should have_content('Closed')          
         end
+        within(:xpath, './/tr[3]') do
+          page.should have_content(@asset.name)
+          page.should have_content('5')          
+          page.should have_content('Open')          
+        end
       end
     end
     
     it "should calculate the total number of units currently being held" do
-      Factory(:open_position, :asset => @asset)
       visit assets_path
       click_link "Show"
       within('#total_units') do

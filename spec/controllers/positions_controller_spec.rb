@@ -35,24 +35,24 @@ describe PositionsController do
   end
 
   describe "Editing an existing positions" do   
-    before :each do
-      Position.stubs(:find).with(1).returns(@position)      
+    before :each do 
+      @position = Factory(:position)
     end
     
     it "edit action should render edit template" do
-      get :edit, :id => 1
+      get :edit, :id => @position.id
       response.should render_template(:edit)
     end    
 
     it "update action should render edit template when model is invalid" do
       Position.any_instance.stubs(:valid?).returns(false)
-      put :update, :id => 1
+      put :update, :id => @position.id
       response.should render_template(:edit)
     end
 
     it "update action should redirect when model is valid" do
       Position.any_instance.stubs(:valid?).returns(true)
-      put :update, :id => 1
+      put :update, :id => @position.id
       response.should redirect_to(position_path(@position))
     end
   end

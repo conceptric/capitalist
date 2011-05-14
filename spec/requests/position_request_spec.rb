@@ -68,6 +68,7 @@ describe "Positions" do
     it "should display an error when no asset is select" do
       visit asset_path(@asset)
       click_link "New Position"
+      select('', :from => 'position_asset_id')       
       click_button "Create Position" 
       page.should have_content("Invalid Field") 
       page.should have_content("Asset can't be blank")

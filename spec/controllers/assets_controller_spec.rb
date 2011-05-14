@@ -29,7 +29,7 @@ describe AssetsController do
     end
 
     it "show action should render show template" do
-      Asset.stubs(:find).with(1).returns(Factory.build(:asset))      
+      Asset.stubs(:find).with(1).returns(Factory.build(:asset, :id => 1))      
       get :show, :id => 1
       response.should render_template(:show)
     end

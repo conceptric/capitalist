@@ -1,5 +1,8 @@
 - title "Edit Position"
 
-= render 'form'
-
+= simple_form_for @position, :url => position_path(@position) do |f|
+  = f.error_messages
+  = f.association :asset
+  = f.button :submit
+  
 %p= link_to "Asset Position List", asset_path(@position.asset)

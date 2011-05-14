@@ -1,6 +1,7 @@
 class PositionsController < ApplicationController
   def index
-    @positions = Position.all
+    @asset = Asset.find(params[:asset_id])    
+    @positions = @asset.positions
   end
 
   def show
@@ -8,10 +9,12 @@ class PositionsController < ApplicationController
   end
 
   def new
-    @position = Position.new
+    @asset = Asset.find(params[:asset_id])    
+    @position = @asset.positions.build
   end
 
   def create
+    @asset = Asset.find(params[:asset_id])    
     @position = Position.new(params[:position])
     if @position.save
       redirect_to position_path(@position), 
@@ -22,7 +25,7 @@ class PositionsController < ApplicationController
   end
 
   def edit
-    @position = Position.find(params[:id])
+    @position = Position.find(params[:id]) 
   end
 
   def update
@@ -37,7 +40,9 @@ class PositionsController < ApplicationController
 
   def destroy
     @position = Position.find(params[:id])
+    asset = @position.asset
     @position.destroy
-    redirect_to positions_url, :notice => "Successfully destroyed position."
+    redirect_to asset_positions_url(asset), 
+      :notice => "Successfully destroyed position."
   end
 end

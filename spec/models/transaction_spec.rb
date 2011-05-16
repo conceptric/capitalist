@@ -17,12 +17,23 @@ shared_examples_for "A Transaction" do
       @transaction.asset.should be_instance_of(Asset)
     end
 
-    it "should not allow the associated Asset to be nil" do
+    it "should allow the associated Asset to be nil" do
       @transaction.asset = nil
-      @transaction.should_not be_valid
+      @transaction.should be_valid
     end                                                            
   end
   
+  describe "Position attribute" do
+    it "should be associated to a Position" do
+      @transaction.position.should be_instance_of(Position)
+    end
+
+    it "should not allow the associated Position to be nil" do
+      @transaction.position = nil
+      @transaction.should_not be_valid
+    end                                                            
+  end
+
   describe "Units attribute" do
     it "should comprise a decimal number of units" do 
       @transaction.units = 1111111.11111
@@ -84,9 +95,8 @@ end
 
 describe Sale, ".new" do
   before :each do
-    @asset = Factory(:asset)
-    Factory(:purchase, :asset => @asset)
-    @transaction = Factory.build(:sale, :asset => @asset)
+    @position = Factory(:open_position)
+    @transaction = Factory.build(:sale, :position => @position)
   end
   
   it_should_behave_like "A Transaction"
@@ -125,7 +135,7 @@ describe Sale, ".new" do
     end
 
     it "should not be valid if too few units where purchased before the sale" do
-      Factory(:purchase, :asset => @asset, :date => Date.new(2011,2,1))
+      Factory(:purchase, :position => @position, :date => Date.new(2011,2,1))
       @transaction.units = 10
       @transaction.should_not be_valid
     end

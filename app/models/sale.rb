@@ -1,15 +1,17 @@
 class Sale < Transaction
-  validate :asset_held?, :units_to_cover_sale?, 
-    :unless => Proc.new { |a| a.asset.nil? || a.units.nil? || a.date.nil? }
+  validate :position_empty?, :sale_covered?, 
+    :unless => Proc.new { |a| a.position.nil? || a.units.nil? || a.date.nil? }
   
-  def asset_held?
-    errors.add(:nothing_to_sell, "you don't hold this Asset") if
-      Purchase.where(:asset_id => asset.id).empty?
+  def position_empty?                                             
+    if position.purchases.empty?
+      errors.add(:nothing_to_sell, "you don't have a Position on this Asset") 
+    end
   end                                          
   
-  def units_to_cover_sale?
-    errors.add(:selling_too_many_units, 
-               "you don't hold enough units in this Asset to cover the sale") if
-      Purchase.where(:asset_id => asset.id).where("date < ?", date).sum('units') < units
+  def sale_covered?
+    if position.purchases.where("date < ?", date).sum('units') < units 
+      errors.add(:selling_too_many_units, 
+        "you don't hold enough units in this Asset to cover the sale")
+    end
   end
 end

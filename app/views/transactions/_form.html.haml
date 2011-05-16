@@ -1,6 +1,7 @@
 = simple_form_for @transaction do |f|
   = f.error_messages
   = f.input :date
+  = f.association :position, :collection => Position.all.collect{ |p| [p.id] }
   = f.association :asset
   = f.input :units
   = f.input :value

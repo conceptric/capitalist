@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe "Purchases" do    
   before :each do 
-    @transaction = Factory(:purchase)
-    @asset = Asset.first      
+    @asset = Factory(:asset)      
+    @position = Factory(:position, :asset => @asset)
+    Factory(:purchase, :asset => @asset, :position => @position)
   end
 
   describe "Read" do
@@ -23,6 +24,7 @@ describe "Purchases" do
       select('2009', :from => 'purchase[date(1i)]') 
       select('February', :from => 'purchase[date(2i)]') 
       select('14', :from => 'purchase[date(3i)]') 
+      select(@position.id.to_s, :from => 'purchase_position_id')       
       select(@asset.name, :from => 'purchase_asset_id')       
       fill_in "Units", :with => "125"
       fill_in "Value", :with => "1000.34"
@@ -41,13 +43,14 @@ describe "Purchases" do
       click_link "New Purchase"
       click_button "Create Purchase"          
       page.should have_content("Invalid Field") 
-      page.should have_content("Asset can't be blank")
+      page.should have_content("Position can't be blank")
       page.should have_content("There are too few units")
     end
 
     it "creates an purchase with valid input" do
       visit purchases_path
       click_link "New Purchase"
+      select(@position.id.to_s, :from => 'purchase_position_id')       
       select(@asset.name, :from => 'purchase_asset_id')       
       fill_in "Units", :with => "-1"
       click_button "Create Purchase" 
@@ -78,11 +81,11 @@ describe "Purchases" do
     it "provides validation warnings with valid input" do
       visit purchases_path
       click_link "Edit"
-      select('', :from => 'purchase_asset_id')       
+      select('', :from => 'purchase_position_id')       
       fill_in "Units", :with => "0"
       click_button "Update Purchase"          
       page.should have_content("Invalid Field") 
-      page.should have_content("Asset can't be blank")
+      page.should have_content("Position can't be blank")
       page.should have_content("There are too few units")
     end
 

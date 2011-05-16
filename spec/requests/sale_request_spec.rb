@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe "Sales" do    
   before :each do 
-    Factory(:purchase)
-    @asset = Asset.first      
-    @transaction = Factory(:sale, :asset => @asset)
+    @asset = Factory(:asset)      
+    @position = Factory(:open_position, :asset => @asset)
+    Factory(:sale, :asset => @asset, :position => @position)
   end
 
   describe "Read" do
@@ -24,6 +24,7 @@ describe "Sales" do
       select('2010', :from => 'sale[date(1i)]') 
       select('February', :from => 'sale[date(2i)]') 
       select('14', :from => 'sale[date(3i)]') 
+      select(@position.id.to_s, :from => 'sale_position_id')       
       select(@asset.name, :from => 'sale_asset_id')       
       fill_in "Units", :with => "2"
       fill_in "Value", :with => "1000.34"
@@ -42,13 +43,15 @@ describe "Sales" do
       click_link "New Sale"
       click_button "Create Sale"          
       page.should have_content("Invalid Field") 
-      page.should have_content("Asset can't be blank")
+      page.should have_content("Position can't be blank")
+      page.should_not have_content("Asset can't be blank")
       page.should have_content("There are too few units")
     end
   
     it "creates an sale with valid input" do
       visit sales_path
       click_link "New Sale"
+      select(@position.id.to_s, :from => 'sale_position_id')       
       select(@asset.name, :from => 'sale_asset_id')       
       fill_in "Units", :with => "-1"
       click_button "Create Sale" 
@@ -79,11 +82,13 @@ describe "Sales" do
     it "provides validation warnings with valid input" do
       visit sales_path
       click_link "Edit"
+      select('', :from => 'sale_position_id')       
       select('', :from => 'sale_asset_id')       
       fill_in "Units", :with => "0"
       click_button "Update Sale"          
       page.should have_content("Invalid Field") 
-      page.should have_content("Asset can't be blank")
+      page.should have_content("Position can't be blank")
+      page.should_not have_content("Asset can't be blank")
       page.should have_content("There are too few units")
     end
   

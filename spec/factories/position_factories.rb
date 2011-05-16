@@ -3,9 +3,13 @@ Factory.define :position, :class => Position do |p|
 end
 
 Factory.define :open_position, :parent => :position do |p|
-  p.purchases {|p| [p.association(:purchase, :asset => p.asset)]}
+  p.after_create do |position|    
+    Factory(:purchase, :position => position)
+  end
 end
 
 Factory.define :closed_position, :parent => :open_position do |p|
-  p.sales {|s| [s.association(:sale, :asset => s.asset)]}
+  p.after_create do |position|    
+    Factory(:sale, :position => position)
+  end
 end

@@ -31,29 +31,23 @@ describe Asset, ".new" do
 end
 
 describe Asset, ".current_units" do
-  it "should be zero when there are no positions" do
-    asset = Factory(:asset)
-    asset.current_units.should eql(0)    
+  before(:each) do
+    Position.any_instance.stubs(:current_units).returns(5)    
+    @asset = Factory(:asset)
   end
 
-  it "should be total units held a single position" do
-    asset = Factory(:asset)
-    Factory(:open_position, :asset => asset)
-    asset.current_units.should eql(5)
+  it "should be zero when there are no positions" do
+    @asset.current_units.should eql(0)    
+  end
+
+  it "should be total units held a single position" do    
+    Factory(:position, :asset => @asset)
+    @asset.current_units.should eql(5)
   end
 
   it "should be the sum of total units in two positions" do
-    asset = Factory(:asset)
-    Factory(:open_position, :asset => asset)
-    Factory(:open_position, :asset => asset)
-    asset.current_units.should eql(10)
-  end
-
-  it "should be the sum of total units in two open and one closed position" do
-    asset = Factory(:asset)
-    Factory(:open_position, :asset => asset)
-    Factory(:open_position, :asset => asset)
-    Factory(:closed_position, :asset => asset)
-    asset.current_units.should eql(10)
+    Factory(:position, :asset => @asset)
+    Factory(:position, :asset => @asset)
+    @asset.current_units.should eql(10)
   end
 end

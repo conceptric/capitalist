@@ -22,30 +22,27 @@ describe Position do
 end  
 
 describe Position, ".current_units" do
-  before(:each) do
-    @position = Factory(:position)
-    @asset = @position.asset    
-  end
-  
   it "should be zero when there are no transactions" do
-    @position.current_units.should eql(0)    
+    Factory(:position).current_units.should eql(0)    
   end
 
   it "should be the units for a purchase" do
-    Factory(:purchase, :position => @position, :asset => @asset)
-    @position.current_units.should eql(5)
+    position = Factory(:open_position)
+    position.transactions.size.should eql(1)
+    position.current_units.should eql(5)
   end
 
   it "should be the sum of the units for two purchases" do
-    Factory(:purchase, :position => @position, :asset => @asset)
-    Factory(:purchase, :position => @position, :asset => @asset)
-    @position.current_units.should eql(10)
+    position = Factory(:open_position)
+    Factory(:purchase, :position => position)
+    position.transactions.size.should eql(2)
+    position.current_units.should eql(10)
   end
   
-  it "should be the difference between the units purchased and sold" do
-    Factory(:purchase, :position => @position, :asset => @asset)
-    Factory(:sale, :position => @position, :asset => @asset)
-    @position.current_units.should eql(0)
+  it "should be the difference between the units purchased and sold" do    
+    position = Factory(:closed_position)
+    position.transactions.size.should eql(2)
+    position.current_units.should eql(0)
   end
 end
 

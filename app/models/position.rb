@@ -2,7 +2,7 @@ class Position < ActiveRecord::Base
   attr_accessible :asset_id
   
   belongs_to :asset      
-  has_many :transactions, :order => "date ASC"
+  has_many :transactions, :order => "date ASC", :dependent => :destroy
   has_many :purchases, :order => "date ASC"
   has_many :sales, :order => "date ASC"
   

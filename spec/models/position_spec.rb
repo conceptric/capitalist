@@ -19,6 +19,28 @@ describe Position do
       @position.should_not be_valid
     end                                                            
   end
+
+  describe "Transactions attribute" do
+    it "should be allowed to be empty" do
+      @position.transactions.should be_empty
+    end                        
+    
+    it "should be associated with Transactions" do
+      position = Factory(:open_position)                        
+      position.transactions.size.should eql(1)
+      position.purchases.size.should eql(1)
+      position.sales.size.should eql(0)
+      position.transactions.first.should be_instance_of(Purchase)
+    end
+
+    it "should cascade delete associated Transactions" do
+      position = Factory(:closed_position) 
+      Transaction.all.size.should eql(2)
+      position.destroy                 
+      Position.exists?(position.id).should be_false
+      Transaction.all.size.should eql(0)
+    end
+  end
 end  
 
 describe Position, ".current_units" do

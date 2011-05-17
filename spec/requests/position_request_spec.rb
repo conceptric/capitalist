@@ -1,6 +1,45 @@
 require 'spec_helper'
 
 describe "Positions" do
+  describe "Read" do
+    before(:each) do
+      @asset = Factory(:asset)
+      Factory(:closed_position, :asset => @asset)
+      Factory(:open_position, :asset => @asset)
+    end
+    
+    it "displays all the positions for the current asset" do
+      visit asset_positions_path(@asset) 
+      page.should have_content(@asset.name)
+      within('#positions') do
+        within(:xpath, './/tr[1]') do
+          page.should have_content('Asset')
+          page.should have_content('Units')          
+          page.should have_content('Status')
+        end
+        within(:xpath, './/tr[2]') do
+          page.should have_content(@asset.name)
+          page.should have_content('0')          
+          page.should have_content('Closed')          
+        end
+        within(:xpath, './/tr[3]') do
+          page.should have_content(@asset.name)
+          page.should have_content('5')          
+          page.should have_content('Open')          
+        end
+      end
+    end
+           
+    it "displays only the positions for the current asset" do
+      another_asset = Factory(:asset)
+      Factory(:position, :asset => another_asset)
+      visit asset_positions_path(@asset) 
+      within('#positions') do
+        page.should_not have_content(another_asset.name)      
+      end
+    end
+  end
+      
   describe "Show" do
     before :each do 
       @asset = Factory(:asset)
@@ -14,7 +53,13 @@ describe "Positions" do
       visit asset_path(@asset)
       click_link "Show"
       page.should have_content(@asset.name) 
-      within('#transactions') do
+      within('#transactions') do 
+        within(:xpath, './/tr[1]') do
+          page.should have_content('Date')
+          page.should have_content('Units')
+          page.should have_content('Value')
+          page.should have_content('Action')
+        end
         within(:xpath, './/tr[2]') do
           page.should have_content('1 January 2010')
           page.should have_content('5')

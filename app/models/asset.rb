@@ -1,6 +1,6 @@
 class Asset < ActiveRecord::Base
   attr_accessible :name, :description
-  has_many :positions
+  has_many :positions, :dependent => :destroy
   
   validates :name, :presence => true, 
             :uniqueness => true,

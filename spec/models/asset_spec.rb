@@ -28,6 +28,26 @@ describe Asset, ".new" do
       @asset.should_not be_valid
     end    
   end
+
+  describe "Positions attribute" do
+    it "should be allowed to be empty" do
+      @asset.positions.should be_empty
+    end                        
+    
+    it "should be associated with Positions" do
+      asset = Factory(:asset_with_position)
+      asset.positions.size.should eql(1)
+      asset.positions.first.should be_instance_of(Position)
+    end
+
+    it "should cascade delete associated Positions" do
+      asset = Factory(:asset_with_position)
+      Position.all.size.should eql(1)
+      asset.destroy                 
+      Asset.exists?(asset.id).should be_false
+      Position.all.size.should eql(0)
+    end
+  end
 end
 
 describe Asset, ".current_units" do

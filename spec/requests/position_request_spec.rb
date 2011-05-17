@@ -36,7 +36,19 @@ describe "Positions" do
         end
       end
     end
-  
+
+    it "should have a link to add a purchase in show" do
+      visit position_path(@position)
+      click_link "Add a new Purchase"
+      current_path.should eql(new_position_purchase_path(@position))        
+    end
+
+    it "should have a link to add a sale in show" do
+      visit position_path(@position)
+      click_link "Add a new Sale"
+      current_path.should eql(new_sale_path)        
+    end
+
     it "should be possible to return to the asset position summary from show" do
       visit asset_path(@asset)
       click_link "Show"
@@ -81,7 +93,7 @@ describe "Positions" do
       @asset = Asset.first
     end
     
-    it "updates an position with valid input" do
+    it "updates a position with valid input" do
       Factory(:asset, :name => 'TEST')
       visit asset_path(@asset)
       click_link "Edit"

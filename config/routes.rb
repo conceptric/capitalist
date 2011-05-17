@@ -1,8 +1,10 @@
 Capitalist::Application.routes.draw do
-  resources :purchases, :sales
+  resources :sales
   shallow do
     resources :assets do
-      resources :positions
+      resources :positions do
+        resources :purchases
+      end
     end
   end
   root :to => "assets#index"

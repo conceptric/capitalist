@@ -4,14 +4,17 @@ class PurchasesController < ApplicationController
   end
   
   def new
+    @position = Position.find(params[:position_id])
     @assets = Asset.all
     @transaction = Purchase.new
   end
 
   def create
+    @position = Position.find(params[:position_id])
     @transaction = Purchase.new(params[:purchase])
     if @transaction.save
-      redirect_to purchases_url, :notice => "Successfully created transaction."
+      redirect_to position_purchases_url(@position), 
+        :notice => "Successfully created transaction."
     else
       render :action => 'new'
     end
@@ -19,12 +22,15 @@ class PurchasesController < ApplicationController
 
   def edit
     @transaction = Purchase.find(params[:id])
+    @position_for_route = @transaction.position
   end     
 
   def update
     @transaction = Purchase.find(params[:id])
+    @position_for_route = @transaction.position
     if @transaction.update_attributes(params[:purchase])
-      redirect_to purchases_url, :notice => "Successfully updated transaction."
+      redirect_to position_purchases_url(@transaction.position), 
+        :notice => "Successfully updated transaction."
     else
       render :action => 'edit'
     end
@@ -32,7 +38,9 @@ class PurchasesController < ApplicationController
   
   def destroy
     @transaction = Purchase.find(params[:id])
+    position = @transaction.position
     @transaction.destroy
-    redirect_to purchases_url, :notice => "Successfully destroyed transaction."
+    redirect_to position_purchases_url(position), 
+      :notice => "Successfully destroyed transaction."
   end
 end

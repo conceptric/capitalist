@@ -9,7 +9,7 @@ describe "Purchases" do
 
   describe "Read" do
     it "displays all the existing purchases" do
-      visit purchases_path
+      visit position_purchases_path(@position)
       page.should have_content('1 January 2010')
       page.should have_content(@asset.name)
       page.should have_content('100.10')
@@ -19,7 +19,7 @@ describe "Purchases" do
 
   describe "Create" do
     it "creates an purchase with valid input" do
-      visit purchases_path
+      visit position_purchases_path(@position)
       click_link "New Purchase"
       select('2009', :from => 'purchase[date(1i)]') 
       select('February', :from => 'purchase[date(2i)]') 
@@ -39,7 +39,7 @@ describe "Purchases" do
     end
   
     it "provides validation warnings with valid input" do
-      visit purchases_path
+      visit position_purchases_path(@position)
       click_link "New Purchase"
       click_button "Create Purchase"          
       page.should have_content("Invalid Field") 
@@ -48,7 +48,7 @@ describe "Purchases" do
     end
 
     it "creates an purchase with valid input" do
-      visit purchases_path
+      visit position_purchases_path(@position)
       click_link "New Purchase"
       select(@position.id.to_s, :from => 'purchase_position_id')       
       select(@asset.name, :from => 'purchase_asset_id')       
@@ -61,7 +61,7 @@ describe "Purchases" do
   
   describe "Update" do
     it "creates an purchase with valid input" do
-      visit purchases_path
+      visit position_purchases_path(@position)
       click_link "Edit"
       select('2009', :from => 'purchase[date(1i)]') 
       select('February', :from => 'purchase[date(2i)]') 
@@ -79,7 +79,7 @@ describe "Purchases" do
     end
   
     it "provides validation warnings with valid input" do
-      visit purchases_path
+      visit position_purchases_path(@position)
       click_link "Edit"
       select('', :from => 'purchase_position_id')       
       fill_in "Units", :with => "0"
@@ -90,7 +90,7 @@ describe "Purchases" do
     end
 
     it "creates an purchase with valid input" do
-      visit purchases_path
+      visit position_purchases_path(@position)
       click_link "Edit"
       fill_in "Units", :with => "-1"
       click_button "Update Purchase" 
@@ -101,7 +101,7 @@ describe "Purchases" do
   
   describe "Delete" do
     it "should delete an existing transaction" do  
-      visit purchases_path
+      visit position_purchases_path(@position)
       click_link "Destroy"
       page.should_not have_content('1 January 2010')
       page.should_not have_content(@asset.name)

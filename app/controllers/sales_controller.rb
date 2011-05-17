@@ -6,7 +6,7 @@ class SalesController < ApplicationController
   
   def new
     @position = Position.find(params[:position_id])
-    @transaction = Sale.new
+    @transaction = @position.sales.build
   end
 
   def create

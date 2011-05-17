@@ -2,5 +2,6 @@
 
 = render :partial => 'transactions/index'
 
-%p= link_to "New Sale", new_position_sale_path(@position)
-                                                                            
+%ul
+  %li= link_to "Back to the position summary", position_path(@position)                  
+  %li= link_to "New Sale", new_position_sale_path(@position)

@@ -31,6 +31,12 @@ describe "Purchases" do
       within('#transactions') do
         page.should_not have_content('1 March 2010')      
       end
+    end    
+    
+    it "should be possible to return to the asset position summary" do
+      visit position_purchases_path(@position)
+      click_link "Back to the position summary"      
+      current_path.should eql(position_path(@position))
     end
   end
 

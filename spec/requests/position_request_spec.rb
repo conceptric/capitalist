@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Positions" do    
+describe "Positions" do
   describe "Show" do
     before :each do 
       @asset = Factory(:asset)
@@ -70,20 +70,31 @@ describe "Positions" do
     it "creates an position with valid input" do
       visit asset_path(@asset)
       click_link "New Position"
-      select(@asset.name, :from => 'position_asset_id')       
       click_button "Create Position" 
+      current_path.should eql(position_path(@asset.positions.first))     
+      page.should_not have_content("Invalid Field") 
+      page.should_not have_content("Asset can't be blank")
       page.should have_content("Successfully created position")
-      page.should have_content(@asset.name)
     end
     
-    it "should display an error when no asset is select" do
+    it "should not display an error when no asset is select" do
       visit asset_path(@asset)
       click_link "New Position"
-      select('', :from => 'position_asset_id')       
       click_button "Create Position" 
-      page.should have_content("Invalid Field") 
-      page.should have_content("Asset can't be blank")
-    end    
+      current_path.should eql(position_path(@asset.positions.first))     
+      page.should_not have_content("Invalid Field") 
+      page.should_not have_content("Asset can't be blank")
+      page.should have_content("Successfully created position")
+    end                  
+    
+    it "should not be able to select an asset" do
+      visit asset_path(@asset)
+      click_link "New Position"
+      within('.position') do
+        page.should_not have_selector('position_asset_id')
+        page.should_not have_content('Asset')
+      end
+    end
   end
 
   describe "Update" do       
@@ -93,22 +104,13 @@ describe "Positions" do
     end
     
     it "updates a position with valid input" do
-      Factory(:asset, :name => 'TEST')
       visit asset_path(@asset)
       click_link "Edit"
-      select('TEST', :from => 'position_asset_id')       
       click_button "Update Position" 
+      current_path.should eql(position_path(@asset.positions.first))     
+      page.should_not have_content("Invalid Field") 
+      page.should_not have_content("Asset can't be blank")
       page.should have_content("Successfully updated position")
-      page.should have_content('TEST')
-    end
-    
-    it "should display an error when no asset is select" do
-      visit asset_path(@asset)
-      click_link "Edit"
-      select('', :from => 'position_asset_id')       
-      click_button "Update Position" 
-      page.should have_content("Invalid Field") 
-      page.should have_content("Asset can't be blank")
     end
     
     it "should be possible to return to the asset position summary from edit" do
@@ -125,7 +127,8 @@ describe "Positions" do
       @asset = Asset.first      
       visit asset_path(@asset)
       click_link "Destroy"
-      page.should_not have_content(@asset.name)
+      current_path.should eql(asset_positions_path(@asset))     
+      page.should have_content("Successfully destroyed position")
     end
   end                     
 end

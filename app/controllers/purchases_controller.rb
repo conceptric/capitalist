@@ -1,11 +1,11 @@
 class PurchasesController < ApplicationController
   def index
-    @transactions = Purchase.all
+    @position = Position.find(params[:position_id])
+    @transactions = @position.purchases
   end
   
   def new
     @position = Position.find(params[:position_id])
-    @assets = Asset.all
     @transaction = Purchase.new
   end
 

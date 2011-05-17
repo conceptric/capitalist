@@ -2,18 +2,35 @@ require 'spec_helper'
 
 describe "Sales" do    
   before :each do 
-    @asset = Factory(:asset)      
-    @position = Factory(:open_position, :asset => @asset)
-    Factory(:sale, :asset => @asset, :position => @position)
+    @position = Factory(:closed_position)
   end
 
   describe "Read" do
-    it "displays all the existing sales" do
-      visit position_sales_path(@position)
-      page.should have_content('1 January 2011')
-      page.should have_content(@asset.name)
-      page.should have_content('200.10')
-      page.should have_content('10.01')      
+    it "displays all the sales for the current position" do
+      visit position_sales_path(@position) 
+      page.should have_content(@position.asset.name)
+      within('#transactions') do
+        within(:xpath, './/tr[1]') do
+          page.should have_content('Date')
+          page.should have_content('Value')
+          page.should have_content('Expenses')      
+        end
+        within(:xpath, './/tr[2]') do
+          page.should have_content('1 January 2011')
+          page.should have_content('200.10')
+          page.should have_content('10.01')      
+        end
+      end   
+    end
+           
+    it "displays only the purchases for the current position" do
+      aposition = Factory(:open_position)
+      Factory(:sale, :position => aposition, :date => Date.new(2011,3,1))
+      visit position_sales_path(@position) 
+      page.should_not have_content(aposition.asset.name)
+      within('#transactions') do
+        page.should_not have_content('1 March 2011')      
+      end
     end
   end
 
@@ -25,14 +42,12 @@ describe "Sales" do
       select('February', :from => 'sale[date(2i)]') 
       select('14', :from => 'sale[date(3i)]') 
       select(@position.id.to_s, :from => 'sale_position_id')       
-      select(@asset.name, :from => 'sale_asset_id')       
       fill_in "Units", :with => "2"
       fill_in "Value", :with => "1000.34"
       fill_in "Expenses", :with => "10"
       click_button "Create Sale" 
       page.should have_content("Successfully created transaction")
       page.should have_content('14 February 2010')
-      page.should have_content(@asset.name)
       page.should have_content('2')
       page.should have_content('1,000.34')
       page.should have_content('10')      
@@ -44,7 +59,6 @@ describe "Sales" do
       click_button "Create Sale"          
       page.should have_content("Invalid Field") 
       page.should have_content("Position can't be blank")
-      page.should_not have_content("Asset can't be blank")
       page.should have_content("There are too few units")
     end
   
@@ -52,7 +66,6 @@ describe "Sales" do
       visit position_sales_path(@position)
       click_link "New Sale"
       select(@position.id.to_s, :from => 'sale_position_id')       
-      select(@asset.name, :from => 'sale_asset_id')       
       fill_in "Units", :with => "-1"
       click_button "Create Sale" 
       page.should have_content("Invalid Field") 
@@ -73,7 +86,6 @@ describe "Sales" do
       click_button "Update Sale" 
       page.should have_content("Successfully updated transaction")
       page.should have_content('14 February 2010')
-      page.should have_content(@asset.name)
       page.should have_content('3')
       page.should have_content('1,700')
       page.should have_content('12.50')      
@@ -83,12 +95,10 @@ describe "Sales" do
       visit position_sales_path(@position)
       click_link "Edit"
       select('', :from => 'sale_position_id')       
-      select('', :from => 'sale_asset_id')       
       fill_in "Units", :with => "0"
       click_button "Update Sale"          
       page.should have_content("Invalid Field") 
       page.should have_content("Position can't be blank")
-      page.should_not have_content("Asset can't be blank")
       page.should have_content("There are too few units")
     end
   
@@ -107,7 +117,6 @@ describe "Sales" do
       visit position_sales_path(@position)
       click_link "Destroy"
       page.should_not have_content('1 January 2010')
-      page.should_not have_content(@asset.name)
       page.should_not have_content('100.10')
       page.should_not have_content('10.01')      
     end

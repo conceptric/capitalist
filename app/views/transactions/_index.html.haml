@@ -1,14 +1,12 @@
-%table
+%table#transactions
   %tr
     %th Date
-    %th Asset
     %th Units
     %th Value
     %th Expenses
   - for transaction in @transactions
     %tr
       %td= transaction.date.strftime("%d %B %Y")
-      %td= transaction.asset.name
       %td= transaction.units
       %td= number_to_currency(transaction.value, :unit => '£')
       %td= number_to_currency(transaction.expenses, :unit => '£')

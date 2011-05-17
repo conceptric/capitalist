@@ -57,20 +57,20 @@ describe Position, ".status" do
   end
 
   it "should be open after a purchase" do
-    Factory(:purchase, :position => @position, :asset => @asset)
+    Factory(:purchase, :position => @position)
     @position.status.should eql('Open')    
   end
 
   it "should be open when some of the asset remains" do
-    Factory(:purchase, :position => @position, :asset => @asset)
-    Factory(:sale, :position => @position, :asset => @asset, :units => 2)
+    Factory(:purchase, :position => @position)
+    Factory(:sale, :position => @position, :units => 2)
     @position.current_units.should eql(3)
     @position.status.should eql('Open')    
   end
   
   it "should be closed when all the asset has been sold" do
-    Factory(:purchase, :position => @position, :asset => @asset)
-    Factory(:sale, :position => @position, :asset => @asset)
+    Factory(:purchase, :position => @position)
+    Factory(:sale, :position => @position)
     @position.status.should eql('Closed')    
   end
 end

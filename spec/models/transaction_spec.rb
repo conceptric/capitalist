@@ -12,17 +12,6 @@ shared_examples_for "A Transaction" do
     end
   end
 
-  describe "Asset attribute" do
-    it "should be associated to an Asset" do
-      @transaction.asset.should be_instance_of(Asset)
-    end
-
-    it "should allow the associated Asset to be nil" do
-      @transaction.asset = nil
-      @transaction.should be_valid
-    end                                                            
-  end
-  
   describe "Position attribute" do
     it "should be associated to a Position" do
       @transaction.position.should be_instance_of(Position)

@@ -5,10 +5,9 @@ describe "Positions" do
     before :each do 
       @asset = Factory(:asset)
       @position = Factory(:position, :asset => @asset)
-      Factory(:purchase, :asset => @asset, :position => @position)      
-      Factory(:purchase, :date => Date.new(2011,3,1), 
-              :asset => @asset, :position => @position)      
-      Factory(:sale, :asset => @asset, :position => @position)
+      Factory(:purchase, :position => @position)      
+      Factory(:purchase, :position => @position, :date => Date.new(2011,3,1))      
+      Factory(:sale, :position => @position)
     end
 
     it "should show me a list of position transactions order by date" do

@@ -46,7 +46,7 @@ describe "Positions" do
     it "should have a link to add a sale in show" do
       visit position_path(@position)
       click_link "Add a new Sale"
-      current_path.should eql(new_sale_path)        
+      current_path.should eql(new_position_sale_path(@position))        
     end
 
     it "should be possible to return to the asset position summary from show" do

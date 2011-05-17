@@ -1,9 +1,8 @@
 Capitalist::Application.routes.draw do
-  resources :sales
   shallow do
     resources :assets do
       resources :positions do
-        resources :purchases
+        resources :purchases, :sales
       end
     end
   end

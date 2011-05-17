@@ -9,7 +9,7 @@ describe "Sales" do
 
   describe "Read" do
     it "displays all the existing sales" do
-      visit sales_path
+      visit position_sales_path(@position)
       page.should have_content('1 January 2011')
       page.should have_content(@asset.name)
       page.should have_content('200.10')
@@ -19,7 +19,7 @@ describe "Sales" do
 
   describe "Create" do
     it "creates an sale with valid input" do
-      visit sales_path
+      visit position_sales_path(@position)
       click_link "New Sale"
       select('2010', :from => 'sale[date(1i)]') 
       select('February', :from => 'sale[date(2i)]') 
@@ -39,7 +39,7 @@ describe "Sales" do
     end
   
     it "provides validation warnings with valid input" do
-      visit sales_path
+      visit position_sales_path(@position)
       click_link "New Sale"
       click_button "Create Sale"          
       page.should have_content("Invalid Field") 
@@ -49,7 +49,7 @@ describe "Sales" do
     end
   
     it "creates an sale with valid input" do
-      visit sales_path
+      visit position_sales_path(@position)
       click_link "New Sale"
       select(@position.id.to_s, :from => 'sale_position_id')       
       select(@asset.name, :from => 'sale_asset_id')       
@@ -62,7 +62,7 @@ describe "Sales" do
   
   describe "Update" do
     it "creates an sale with valid input" do
-      visit sales_path
+      visit position_sales_path(@position)
       click_link "Edit"
       select('2010', :from => 'sale[date(1i)]') 
       select('February', :from => 'sale[date(2i)]') 
@@ -80,7 +80,7 @@ describe "Sales" do
     end
   
     it "provides validation warnings with valid input" do
-      visit sales_path
+      visit position_sales_path(@position)
       click_link "Edit"
       select('', :from => 'sale_position_id')       
       select('', :from => 'sale_asset_id')       
@@ -93,7 +93,7 @@ describe "Sales" do
     end
   
     it "creates an sale with valid input" do
-      visit sales_path
+      visit position_sales_path(@position)
       click_link "Edit"
       fill_in "Units", :with => "-1"
       click_button "Update Sale" 
@@ -104,7 +104,7 @@ describe "Sales" do
   
   describe "Delete" do
     it "should delete an existing transaction" do  
-      visit sales_path
+      visit position_sales_path(@position)
       click_link "Destroy"
       page.should_not have_content('1 January 2010')
       page.should_not have_content(@asset.name)

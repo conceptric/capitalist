@@ -41,11 +41,13 @@ describe "Purchases" do
       select('2009', :from => 'purchase[date(1i)]') 
       select('February', :from => 'purchase[date(2i)]') 
       select('14', :from => 'purchase[date(3i)]') 
-      select(@position.id.to_s, :from => 'purchase_position_id')       
       fill_in "Units", :with => "125"
       fill_in "Value", :with => "1000.34"
       fill_in "Expenses", :with => "10"
       click_button "Create Purchase" 
+      current_path.should eql(position_purchases_path(@position))     
+      page.should_not have_content("Invalid Field") 
+      page.should_not have_content("Position can't be blank")
       page.should have_content("Successfully created transaction")
       page.should have_content('14 February 2009')
       page.should have_content('125')
@@ -58,17 +60,17 @@ describe "Purchases" do
       click_link "New Purchase"
       click_button "Create Purchase"          
       page.should have_content("Invalid Field") 
-      page.should have_content("Position can't be blank")
+      page.should_not have_content("Position can't be blank")
       page.should have_content("There are too few units")
     end
 
     it "creates an purchase with valid input" do
       visit position_purchases_path(@position)
       click_link "New Purchase"
-      select(@position.id.to_s, :from => 'purchase_position_id')       
       fill_in "Units", :with => "-1"
       click_button "Create Purchase" 
       page.should have_content("Invalid Field") 
+      page.should_not have_content("Position can't be blank")
       page.should have_content("There are too few units")
     end
   end
@@ -84,6 +86,9 @@ describe "Purchases" do
       fill_in "Value", :with => "1700"
       fill_in "Expenses", :with => "12.50"
       click_button "Update Purchase" 
+      current_path.should eql(position_purchases_path(@position))     
+      page.should_not have_content("Invalid Field") 
+      page.should_not have_content("Position can't be blank")
       page.should have_content("Successfully updated transaction")
       page.should have_content('14 February 2009')
       page.should have_content('215')
@@ -94,11 +99,9 @@ describe "Purchases" do
     it "provides validation warnings with valid input" do
       visit position_purchases_path(@position)
       click_link "Edit"
-      select('', :from => 'purchase_position_id')       
       fill_in "Units", :with => "0"
       click_button "Update Purchase"          
       page.should have_content("Invalid Field") 
-      page.should have_content("Position can't be blank")
       page.should have_content("There are too few units")
     end
 
@@ -116,6 +119,7 @@ describe "Purchases" do
     it "should delete an existing transaction" do  
       visit position_purchases_path(@position)
       click_link "Destroy"
+      current_path.should eql(position_purchases_path(@position))     
       page.should_not have_content('1 January 2010')
       page.should_not have_content('100.10')
       page.should_not have_content('10.01')      

@@ -6,7 +6,7 @@ class PurchasesController < ApplicationController
   
   def new
     @position = Position.find(params[:position_id])
-    @transaction = Purchase.new
+    @transaction = @position.purchases.build
   end
 
   def create

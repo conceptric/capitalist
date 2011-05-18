@@ -8,6 +8,12 @@ class Position < ActiveRecord::Base
   
   validates_presence_of :asset_id
 
+  def units(a_date)
+    bought = purchases.where("date <= ?", a_date).sum('units')
+    sold = sales.where("date <= ?", a_date).sum('units')    
+    bought - sold
+  end
+
   def current_units
     purchases.sum('units') - sales.sum('units')
   end              

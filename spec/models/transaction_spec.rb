@@ -158,7 +158,8 @@ describe Sale, " validates there is enough to sell" do
     @transaction.should_not be_valid            
   end
 
-  it "is valid when updating an existing sale with more available units" do
+  it "when updating an existing sale with more available units" do
+    @transaction.units = 5
     @transaction.should be_valid            
   end
 end

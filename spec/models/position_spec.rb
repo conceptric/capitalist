@@ -68,6 +68,43 @@ describe Position, ".current_units" do
   end
 end
 
+describe Position, ".units on a specified date" do
+  it "are zero when there are no transactions" do
+    date = Date.new(2011,1,1)
+    Factory(:position).units(date).should eql(0)    
+  end                                         
+  
+  it "are the units purchased before the date" do
+    date = Date.new(2010,1,2)
+    Factory(:open_position).units(date).should eql(5)    
+  end                                               
+
+  it "are the units purchased when purchases occurred on the date" do
+    date = Date.new(2010,1,1)
+    Factory(:open_position).units(date).should eql(5)    
+  end                                               
+  
+  it "are zero when purchases occurred after the date" do
+    date = Date.new(2009,12,31)
+    Factory(:open_position).units(date).should eql(0)        
+  end                   
+  
+  it "are the difference between units bought and sold before the date" do
+    date = Date.new(2011,1,2)
+    Factory(:closed_position).units(date).should eql(0)            
+  end                     
+  
+  it "are the difference between units bought and sold on the date" do
+    date = Date.new(2011,1,1)
+    Factory(:closed_position).units(date).should eql(0)            
+  end                     
+
+  it "are units purchased when the sale occurred after the date" do
+    date = Date.new(2010,12,31)
+    Factory(:closed_position).units(date).should eql(5)                
+  end
+end                              
+
 describe Position, ".status" do
   before(:each) do
     @position = Factory(:position)

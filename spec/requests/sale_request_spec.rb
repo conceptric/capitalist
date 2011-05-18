@@ -40,7 +40,11 @@ describe "Sales" do
     end
   end
 
-  describe "Create" do
+  describe "Create" do 
+    before :each do 
+      @position = Factory(:open_position)
+    end
+    
     it "creates an sale with valid input" do
       visit position_sales_path(@position)
       click_link "New Sale"

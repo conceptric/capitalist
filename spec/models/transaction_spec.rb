@@ -108,10 +108,10 @@ describe Sale, ".new" do
   end
 
   describe "Conditions of sale" do
-    it "should not be valid if selling an asset you do not own" do
-      Purchase.delete_all
+    it "should not be the first transaction in a position" do
+      Transaction.delete_all
       @transaction.should_not be_valid
-    end                               
+    end
     
     it "should not be valid if selling more units than have been purchased" do
       @transaction.units = 10
@@ -127,6 +127,20 @@ describe Sale, ".new" do
       Factory(:purchase, :position => @position, :date => Date.new(2011,2,1))
       @transaction.units = 10
       @transaction.should_not be_valid
+    end
+    
+    it "should not be allowed to invalidate the position when inserted" do
+      position = Factory(:closed_position)
+      transaction = Factory.build(:sale, :position => position)
+      transaction.date = Date.new(2010,10,1)
+      transaction.should_not be_valid      
+    end
+
+    it "should not be valid when updating an existing sale with fewer units" do
+      position = Factory(:closed_position)
+      transaction = position.sales.first
+      transaction.units = 3     
+      transaction.should be_valid            
     end
   end
 end

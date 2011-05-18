@@ -9,9 +9,23 @@ class Sale < Transaction
   end                                          
   
   def sale_covered?
-    if position.purchases.where("date < ?", date).sum('units') < units 
+    if available_units_before(date) < units || available_units < units
       errors.add(:selling_too_many_units, 
         "you don't hold enough units in this Asset to cover the sale")
+    end
+  end                         
+  
+  private      
+  
+  def available_units_before(a_date)
+    position.purchases.where("date < ?", a_date).sum('units') - position.sales.where("date < ?", a_date).sum('units')    
+  end
+  
+  def available_units             
+    if id != nil && position.sales.exists?(id)
+      position.current_units + position.sales.find(id).units
+    else
+      position.current_units
     end
   end
 end

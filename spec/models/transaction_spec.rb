@@ -106,41 +106,59 @@ describe Sale, ".new" do
       @transaction.date.should eql(Date.new(2011,1,1))
     end    
   end
+end
 
-  describe "Conditions of sale" do
-    it "should not be the first transaction in a position" do
-      Transaction.delete_all
-      @transaction.should_not be_valid
-    end
-    
-    it "should not be valid if selling more units than have been purchased" do
-      @transaction.units = 10
-      @transaction.should_not be_valid
-    end
-    
-    it "should not be valid if the sale is before the purchase" do
-      @transaction.date = Date.new(2009,1,1)
-      @transaction.should_not be_valid
-    end
+describe Sale, " validates there is something to sell" do
+  before :each do
+    @position = Factory(:open_position)
+    @transaction = Factory.build(:sale, :position => @position)
+  end
+  
+  it "prevents a sale being the first transaction in a position" do
+    Transaction.delete_all
+    @transaction.should_not be_valid
+  end
+  
+  it "is invalid if the sale is before the purchase" do
+    @transaction.date = Date.new(2009,1,1)
+    @transaction.should_not be_valid
+  end
+end
 
-    it "should not be valid if too few units where purchased before the sale" do
-      Factory(:purchase, :position => @position, :date => Date.new(2011,2,1))
-      @transaction.units = 10
-      @transaction.should_not be_valid
-    end
-    
-    it "should not be allowed to invalidate the position when inserted" do
-      position = Factory(:closed_position)
-      transaction = Factory.build(:sale, :position => position)
-      transaction.date = Date.new(2010,10,1)
-      transaction.should_not be_valid      
-    end
+describe Sale, " validates there is enough to sell" do    
+  before(:each) do
+    @position = Factory(:open_position)           
+    @transaction = Factory(:sale, :position => @position, :units => 3)
+  end
 
-    it "should not be valid when updating an existing sale with fewer units" do
-      position = Factory(:closed_position)
-      transaction = position.sales.first
-      transaction.units = 3     
-      transaction.should be_valid            
-    end
+  it "is invalid if selling more units than have been purchased" do
+    @transaction.units = 10
+    @transaction.should_not be_valid
+  end
+
+  it "is invalid if too few units were purchased before the sale" do
+    Factory(:purchase, :position => @position, :date => Date.new(2011,2,1))
+    @transaction.units = 10
+    @transaction.should_not be_valid
+  end
+    
+  it "prevents position invalidation when a sale is inserted" do
+    transaction = Factory.build(:sale, :position => @position)
+    transaction.date = Date.new(2010,10,1)
+    transaction.should_not be_valid      
+  end
+
+  it "is valid when updating an existing sale with fewer units" do
+    @transaction.units = 1     
+    @transaction.should be_valid            
+  end
+
+  it "is invalid when updating a sale with too many units" do
+    @transaction.units = 6     
+    @transaction.should_not be_valid            
+  end
+
+  it "is valid when updating an existing sale with more available units" do
+    @transaction.should be_valid            
   end
 end

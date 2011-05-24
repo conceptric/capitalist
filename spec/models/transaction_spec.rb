@@ -34,7 +34,7 @@ shared_examples_for "A Transaction" do
       @transaction.units.should eql(1111111.11111)
     end
 
-    it "can be blank" do
+    it "cannot be blank" do
       @transaction.units = nil
       @transaction.should_not be_valid
     end                               
@@ -63,13 +63,43 @@ shared_examples_for "A Transaction" do
   describe "Value attribute" do
     it "has the correct decimal format" do
       @transaction.value.should eql(@value)
-    end  
+    end                                   
+    
+    it "cannot be negative" do
+      @transaction.value = -1
+      @transaction.should_not be_valid
+    end
+
+    it "can be zero" do
+      @transaction.value = 0
+      @transaction.should be_valid
+    end
+
+    it "cannot be nil" do
+      @transaction.value = nil
+      @transaction.should_not be_valid
+    end
   end
   
   describe "Expenses attribute" do    
     it "has the correct decimal format" do
       @transaction.expenses.should eql(@expense)
     end      
+
+    it "cannot be negative" do
+      @transaction.expenses = -1
+      @transaction.should_not be_valid
+    end
+
+    it "can be zero" do
+      @transaction.expenses = 0
+      @transaction.should be_valid
+    end
+
+    it "cannot be nil" do
+      @transaction.expenses = nil
+      @transaction.should_not be_valid
+    end
   end                      
 
   describe ".unit_price" do

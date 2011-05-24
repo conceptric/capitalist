@@ -5,10 +5,6 @@ describe Asset, ".new" do
     @asset = Factory(:asset)
   end
 
-  after :all do
-    Asset.delete_all
-  end
-
   describe "Name attribute" do
     it "is a string" do
       @asset.should be_valid

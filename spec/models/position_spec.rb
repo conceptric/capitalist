@@ -135,6 +135,10 @@ describe Position, ".status" do
 end
 
 describe ".average_unit_price" do
+  before(:each) do
+    @position = Factory(:position)    
+  end
+  
   it "is the unit price of a single transaction" do
     position = Factory(:open_position)     
     price = BigDecimal.new("#{100.10 / 5}").round(5)   
@@ -142,11 +146,11 @@ describe ".average_unit_price" do
   end                                           
 
   it "is zero when there are no transactions" do
-    position = Factory.build(:position)
+    @position.average_unit_price.should eql(0)
   end
 
   it "is zero when the position is closed" do
-    position = Factory.build(:position)
+    @position.average_unit_price.should eql(0)
   end
   
   it "is the weighted average of unit prices of two transactions"

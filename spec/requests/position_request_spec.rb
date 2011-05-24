@@ -16,16 +16,19 @@ describe "Positions" do
           page.should have_content('Asset')
           page.should have_content('Units')          
           page.should have_content('Status')
+          page.should have_content('Average Unit Price')
         end
         within(:xpath, './/tr[2]') do
           page.should have_content(@asset.name)
           page.should have_content('0')          
           page.should have_content('Closed')          
+          page.should have_content('0')      
         end
         within(:xpath, './/tr[3]') do
           page.should have_content(@asset.name)
           page.should have_content('5')          
           page.should have_content('Open')          
+          page.should have_content('20.02')      
         end
       end
     end

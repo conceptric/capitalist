@@ -133,3 +133,23 @@ describe Position, ".status" do
     @position.status.should eql('Closed')    
   end
 end
+
+describe ".average_unit_price" do
+  it "is the unit price of a single transaction" do
+    position = Factory(:open_position)     
+    price = BigDecimal.new("#{100.10 / 5}").round(5)   
+    position.average_unit_price.should eql(price)
+  end                                           
+
+  it "is zero when there are no transactions" do
+    position = Factory.build(:position)
+  end
+
+  it "is zero when the position is closed" do
+    position = Factory.build(:position)
+  end
+  
+  it "is the weighted average of unit prices of two transactions"
+  
+  it "is the weighted average of unit prices of two transactions after a sale"
+end

@@ -3,11 +3,13 @@
     %th Asset
     %th Units
     %th Status
+    %th Average Unit Price
   - for position in @positions
     %tr.position
       %td= position.asset.name
       %td= position.current_units
       %td= position.status
+      %td= number_to_currency(position.average_unit_price, :unit => '£')
       %td= link_to 'Show', position_path(position)
       %td= link_to 'Edit', edit_position_path(position)
       %td= link_to 'Destroy', position, :confirm => 'Are you sure?', :method => :delete

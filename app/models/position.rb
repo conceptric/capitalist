@@ -17,6 +17,14 @@ class Position < ActiveRecord::Base
   def current_units
     purchases.sum('units') - sales.sum('units')
   end              
+
+  def average_unit_price                           
+    if status == "Closed" || transactions.empty?
+      0
+    else
+      purchases.sum('value') / purchases.sum('units')
+    end
+  end
   
   def status
     if !transactions.empty? && current_units == 0

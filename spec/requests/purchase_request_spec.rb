@@ -14,11 +14,14 @@ describe "Purchases" do
           page.should have_content('Date')
           page.should have_content('Value')
           page.should have_content('Expenses')      
+          page.should have_content('Units')      
+          page.should have_content('Unit Price')      
         end
         within(:xpath, './/tr[2]') do
           page.should have_content('1 January 2010')
           page.should have_content('100.10')
           page.should have_content('10.01')      
+          page.should have_content('20.02')      
         end
       end   
     end

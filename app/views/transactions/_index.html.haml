@@ -4,11 +4,13 @@
     %th Units
     %th Value
     %th Expenses
+    %th Unit Price
   - for transaction in @transactions
     %tr
       %td= transaction.date.strftime("%d %B %Y")
       %td= transaction.units
       %td= number_to_currency(transaction.value, :unit => '£')
       %td= number_to_currency(transaction.expenses, :unit => '£')
+      %td= number_to_currency(transaction.unit_price, :unit => '£')
       %td= link_to 'Edit', url_for([:edit, transaction])
       %td= link_to 'Destroy', transaction, :confirm => 'Are you sure?', :method => :delete        

@@ -71,6 +71,34 @@ shared_examples_for "A Transaction" do
       @transaction.expenses.should eql(@expense)
     end      
   end                      
+
+  describe ".unit_price" do
+    it "has the correct decimal format" do        
+      unit_price = @transaction.value / @transaction.units
+      price = BigDecimal.new("#{unit_price}").round(5)
+      @transaction.unit_price.should eql(price)
+    end
+
+    it "is zero when value is nil" do
+      @transaction.value = nil
+      @transaction.unit_price.should eql(0)
+    end
+
+    it "is zero when value is zero" do
+      @transaction.value = 0
+      @transaction.unit_price.should eql(0)
+    end
+
+    it "is zero when units is nil" do
+      @transaction.units = nil
+      @transaction.unit_price.should eql(0)
+    end
+
+    it "is zero when units is zero" do
+      @transaction.units = 0
+      @transaction.unit_price.should eql(0)
+    end
+  end
 end
 
 describe Purchase, ".new" do

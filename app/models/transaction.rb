@@ -6,4 +6,12 @@ class Transaction < ActiveRecord::Base
   validates_numericality_of :units, 
                             :greater_than_or_equal_to => 0.00001,
                             :message => 'There are too few units'
+
+  def unit_price 
+    if value.nil? || units.nil? || units == 0
+      0
+    else
+      value / units
+    end
+  end                           
 end

@@ -22,29 +22,22 @@ class Position < ActiveRecord::Base
     if status == "Closed" || transactions.empty?
       0
     else
-      if sales.empty?
-        purchases.sum('value') / purchases.sum('units')
-      else    
-        first_purchases = purchases.where("date <= ?", sales.first.date)
-        last_purchases = purchases.where("date > ?", sales.first.date) 
-        
-        if last_purchases.empty?
-          purchases.sum('value') / purchases.sum('units')
-        else            
-          working_price = 0
-          
-          first_purchases.each do |purchase|
-            working_price += 
-            (purchase.unit_price * (purchase.units /
-             units(purchase.date))).round(5)
-          end
-                 
-          first_value = (working_price * units(sales.first.date))
-          last_value = last_purchases.sum('value')
-          (first_value + last_value) / current_units
-        end
+      money_paid = purchases.sum('value') 
+      (money_paid - value_of_sold) / current_units
+    end                          
+  end                            
+  
+  def value_of_sold
+    sold = 0
+    if !sales.empty?
+      sales.each do |sale|
+        invested_value = purchases.where("date <= ?", sale.date).sum('value')
+        invested_units = units(sale.date) + sale.units
+        average_price = invested_value / invested_units
+        sold += average_price * sale.units
       end
     end
+    sold
   end
   
   def status

@@ -137,11 +137,14 @@ end
 describe ".average_unit_price" do
   before(:each) do
     @position = Factory(:position)    
-    Factory(:purchase, :position => @position)
+    Factory(:purchase, 
+            :position => @position, 
+            :value => 10, 
+            :units => 10)
   end
   
   it "is the unit price of a single transaction" do
-    price = BigDecimal.new("#{100.10 / 5}").round(5)   
+    price = BigDecimal("1")   
     @position.average_unit_price.should eql(price)
   end                                           
 
@@ -151,45 +154,91 @@ describe ".average_unit_price" do
   end
 
   it "is zero when the position is closed" do
-    Factory(:sale, :position => @position)
+    Factory(:sale, 
+            :position => @position,
+            :value => 20,
+            :units => 10)
     @position.average_unit_price.should eql(0)
   end
   
   it "is the unit price of either of two identical transactions" do
-    Factory(:purchase, :position => @position)
-    price = BigDecimal.new("#{100.10 / 5}").round(5)   
+    Factory(:purchase, 
+            :position => @position, 
+            :value => 10, 
+            :units => 10)
+    price = BigDecimal("1")   
     @position.average_unit_price.should eql(price)    
   end
 
-  it "is the combined average unit price of two different value transactions" do
-    Factory(:purchase, :position => @position, :value => 300.50)
-    weighted_average = (100.10 + 300.50)/10
-    price = BigDecimal.new("#{weighted_average}").round(5)   
+  it "is in the middle when the second transaction price is twice the first" do
+    Factory(:purchase, 
+            :position => @position, 
+            :value => 20, 
+            :units => 10)
+    price = BigDecimal("1.5")   
     @position.average_unit_price.should eql(price)    
   end
 
-  it "is the combined average unit price of two different units transactions" do
-    Factory(:purchase, :position => @position, :units => 15)
-    weighted_average = (200.20)/(5 + 15)
-    price = BigDecimal.new("#{weighted_average}").round(5)   
+  it "is a 25% more when the second transaction units are 60% the first" do
+    Factory(:purchase, 
+            :position => @position, 
+            :value => 10, 
+            :units => 6)
+    price = BigDecimal("1.25")   
     @position.average_unit_price.should eql(price)    
   end
 
   describe " of an open position including a Sale" do
-     it "is the unit price of either of prior purchases" do
-      Factory(:purchase, :position => @position)
-      Factory(:sale, :position => @position)
-      weighted_average = 100.10 / 5
-      price = BigDecimal.new("#{weighted_average}").round(5)   
+    it "is the average unit price of prior purchases" do
+      Factory(:purchase, 
+              :position => @position, 
+              :value => 10, 
+              :units => 10)
+      Factory(:sale, 
+              :position => @position, 
+              :value => 20, 
+              :units => 10)
+      price = BigDecimal("1")   
       @position.average_unit_price.should eql(price)    
     end                                                                           
 
-    it "is the weighted average price considering the sold units" do
-      Factory(:purchase, :position => @position)
-      Factory(:sale, :position => @position)
-      Factory(:purchase, :position => @position)
-      weighted_average = (100.10 + 100.10) / 10
-      price = BigDecimal.new("#{weighted_average}").round(5)   
+    it "is the average price less the purchase value of the units sold" do
+      Factory(:sale, 
+              :date => Date.new(2010,2,1),
+              :position => @position, 
+              :value => 10, 
+              :units => 5)
+      Factory(:purchase, 
+              :date => Date.new(2010,3,1),
+              :position => @position, 
+              :value => 10, 
+              :units => 5)
+      price = BigDecimal("1.5")   
+      @position.average_unit_price.should eql(price)        
+    end
+
+    it "is works with a complex multi purchase and sale case" do
+      Factory(:sale, 
+              :date => Date.new(2010,2,1),
+              :position => @position, 
+              :value => 10, 
+              :units => 5)
+      Factory(:purchase, 
+              :date => Date.new(2010,3,1),
+              :position => @position, 
+              :value => 10, 
+              :units => 5)
+      Factory(:sale, 
+              :date => Date.new(2010,4,1),
+              :position => @position, 
+              :value => 20, 
+              :units => 5)
+      Factory(:purchase, 
+              :date => Date.new(2010,5,1),
+              :position => @position, 
+              :value => 30, 
+              :units => 15)
+      price = BigDecimal("1.75")   
       @position.average_unit_price.should eql(price)        
     end
   end

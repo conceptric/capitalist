@@ -81,3 +81,16 @@ a {
   div.boolean label {  
     float: none;  
     margin: 0; } }  
+          
+table {  
+  text-align: center;
+  th {
+    width: 120px;
+    &.description {
+      width: 240px; } }
+  td {
+    padding: 0px 5px;
+    &.nav {
+      width: 30px; } 
+    &.numeric {
+      text-align: right; } } }
